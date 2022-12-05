@@ -7,7 +7,20 @@ This Visual Studio Code extension allows you to use the [unofficial ChatGPT API]
 - View its responses in a panel next to the editor
 - Insert code snippets from the AI's response into the active editor
 
-## Getting started
+
+## Instalation
+
+To just install this extension, download `.vsix` file from Releases.
+1. Open the `Extensions` panel in VSCode by going to the `View` menu and selecting `Extensions`.
+2. Click on the `...` icon at the top right of the panel, and select `Install from VSIX`.
+3. Select the downloaded VSIX file to begin installation.
+4. After the installation is complete, you will need to add your ChatGPT session token to the extension settings in VSCode. To do this, open the `Settings` panel by going to the `Code` menu and selecting `Preferences`, then `Settings`.
+5. In the search bar, type `ChatGPT` to filter the settings list.
+6. In the ChatGPT section, enter your session token in the `SESSION_TOKEN` field.
+
+After completing these steps, the extension should be ready to use. 
+
+## Obtaining the session token
 
 To use this extension, you will need to authenticate with a valid session token from ChatGPT. To get a session token:
 
@@ -16,11 +29,7 @@ To use this extension, you will need to authenticate with a valid session token 
 3. Go to the `Application` tab and open the `Cookies` section.
 4. Copy the value for `__Secure-next-auth.session-token` and save it.
 
-Once you have obtained a session token, you can configure the extension to use it by adding the following line to your Visual Studio Code settings:
-
-```
-"chatgpt.SESSION_TOKEN": "<your session token here>"
-```
+Once you have obtained a session token, you can configure the extension to use it as described in the previous section.
 
 Extensions should then be restarted in order to work.
 
@@ -37,10 +46,13 @@ To insert a code snippet from the AI's response into the editor, simply click on
 
 ## Current Issues
 
-After installing the dependencies, you may need to modify the `exports` property of `node_modules\chatgpt\package.json` by moving the `default` property to be the last one in the object (`"exports": { "import": "./build/index.js", "types": "./build/index.d.ts", "default": "./build/index.js" },`)
+*This is only applicable if you want to compile from source code*
+
+After installing the dependencies, you need to modify the `exports` property of `node_modules\chatgpt\package.json` by moving the `default` property to be the last one in the object (`"exports": { "import": "./build/index.js", "types": "./build/index.d.ts", "default": "./build/index.js" },`)
+
+---
 
 Please note that this extension is currently a proof of concept and may have some limitations or bugs. We welcome feedback and contributions to improve the extension.
 
----
 
 The extension makes use of this [ChatGPT package](https://github.com/transitive-bullshit/chatgpt-api), which uses ChatGPT unofficial API in order to login and communicate with ChatGPT.
