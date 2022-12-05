@@ -1,15 +1,19 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { ChatGPTAPI } from 'chatgpt'
+import { ChatGPTAPI } from 'chatgpt';
+
+
+
+// Get the extension's configuration
+let config = vscode.workspace.getConfiguration('chatgpt');
+// Read the 'SESSION_TOKEN' value from the 'section1' section of the configuration
+let SESSION_TOKEN:string|undefined = config.get('SESSION_TOKEN');
+
 
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
 	const provider = new ChatGPTViewProvider(context.extensionUri);
 
 	context.subscriptions.push(
@@ -27,23 +31,31 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 class ChatGPTViewProvider implements vscode.WebviewViewProvider {
-
 	public static readonly viewType = 'chatgpt.chatView';
 
 	private _view?: vscode.WebviewView;
 
-	/**
-	 * You can set this to "true" once you have authenticated within the headless chrome.
-	 */
-	private _chatGPTAPI = new ChatGPTAPI({
-		headless: false,
-	});
+	// This variable holds a reference to the ChatGPTAPI instance
+	private _chatGPTAPI: ChatGPTAPI | undefined;
 
+	// In the constructor, we store the URI of the extension and initialize a new ChatGPTAPI instance
 	constructor(
 		private readonly _extensionUri: vscode.Uri,
 	) {
-		
-	 }
+		this._newAPI();
+	}
+
+	// This private method initializes a new ChatGPTAPI instance, using the session token if it is set
+	private _newAPI() {
+		if (!SESSION_TOKEN) {
+			console.warn("Session token not set");
+		}else{
+			this._chatGPTAPI = new ChatGPTAPI({
+				sessionToken: SESSION_TOKEN
+			});
+		}
+	}
+
 
 	public resolveWebviewView(
 		webviewView: vscode.WebviewView,
@@ -52,17 +64,19 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 	) {
 		this._view = webviewView;
 
-		webviewView.webview.options = {
+			// set options for the webview
+			webviewView.webview.options = {
 			// Allow scripts in the webview
 			enableScripts: true,
-
 			localResourceRoots: [
 				this._extensionUri
 			]
 		};
 
+		// set the HTML for the webview
 		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
+		// add an event listener for messages received by the webview
 		webviewView.webview.onDidReceiveMessage(data => {
 			switch (data.type) {
 				case 'codeSelected':
@@ -70,6 +84,7 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 						let code = data.value;
 						code = code.replace(/([^\\])(\$)([^{0-9])/g, "$1\\$$$3");
 
+						// insert the code as a snippet into the active text editor
 						vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(code));
 						break;
 					}
@@ -81,34 +96,42 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 		});
 	}
 
-	public async search(prompt) {
-		const isSignedIn = await this._chatGPTAPI.getIsSignedIn();
-		if (!isSignedIn) {
-			await this._chatGPTAPI.init();
+	public async search(prompt:string|undefined) {
+		if (!prompt) {
+			prompt = '';
+		};
+
+		// Check if the ChatGPTAPI instance is defined
+		if (!this._chatGPTAPI) {
+			this._newAPI();
 		}
 
-		const languageId = vscode.window.activeTextEditor?.document.languageId;
-		const surroundingText = vscode.window.activeTextEditor?.document.getText();
+		// Check if the ChatGPTAPI instance is signed in
+		const isSignedIn = this._chatGPTAPI && await this._chatGPTAPI.ensureAuth();
 
-		// get the selected text
-		const selection = vscode.window.activeTextEditor?.selection;
-		const selectedText = vscode.window.activeTextEditor?.document.getText(selection);
-		let searchPrompt = '';
-
-		if (selection && selectedText) {
-			searchPrompt = `${selectedText}
-
-	${prompt}`;
+		let response = '';
+		if (!isSignedIn || !this._chatGPTAPI) {
+			response = 'Please enter a valid API key in the extension settings';
 		} else {
-			searchPrompt = `This is the ${languageId} file I'm working on:
-	${surroundingText}
+			// Get the selected text of the active editor
+			const selection = vscode.window.activeTextEditor?.selection;
+			const selectedText = vscode.window.activeTextEditor?.document.getText(selection);
+			let searchPrompt = '';
 
-	${prompt}`;
+			if (selection && selectedText) {
+				// If there is a selection, add the prompt and the selected text to the search prompt
+				searchPrompt = `${prompt}\n${selectedText}\n`;
+				
+			} else {
+				// Otherwise, just use the prompt
+				searchPrompt = prompt;
+			}
+
+			// Send the search prompt to the ChatGPTAPI instance and store the response
+			response = await this._chatGPTAPI.sendMessage(searchPrompt);
 		}
 
-		const response = await this._chatGPTAPI.sendMessage(searchPrompt);
-
-
+		// Show the view and send a message to the webview with the response
 		if (this._view) {
 			this._view.show?.(true);
 			this._view.webview.postMessage({ type: 'addResponse', value: response });
@@ -128,9 +151,9 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 				<script src="https://cdn.tailwindcss.com"></script>
 			</head>
 			<body>
-				<input class="h-10 w-full text-white bg-stone-700 p-4 text-lg font-mono" type="text" id="prompt-input" />
+				<input class="h-10 w-full text-white bg-stone-700 p-4 text-md font-mono" type="text" id="prompt-input" />
 
-				<div id="response" class="pt-4 text-lg">
+				<div id="response" class="pt-4 text-md">
 				</div>
 
 				<script src="${scriptUri}"></script>

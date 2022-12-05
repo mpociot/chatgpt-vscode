@@ -2,7 +2,7 @@
   "name": "chatgpt",
   "displayName": "chatgpt",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "engines": {
     "vscode": "^1.73.0"
   },
@@ -38,6 +38,17 @@
 					"name": "ChatGPT"
 				}
       ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "chatGPT",
+      "properties": {
+        "chatgpt.SESSION_TOKEN": {
+          "type": "string",
+          "description": "A session token you get when logged into chat.openai.com",
+          "title": "Session Token"
+        }
+      }
     }
   },
   "scripts": {
@@ -68,6 +79,6 @@
     "webpack-cli": "^5.0.0"
   },
   "dependencies": {
-    "chatgpt": "^0.4.1"
+    "chatgpt": "^1.0.0"
   }
 }
