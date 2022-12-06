@@ -3,18 +3,18 @@ import { ChatGPTAPI } from 'chatgpt';
 
 
 
-// Get the extension's configuration
-let config = vscode.workspace.getConfiguration('chatgpt');
-// Read the 'SESSION_TOKEN' value from the 'section1' section of the configuration
-let SESSION_TOKEN:string|undefined = config.get('SESSION_TOKEN');
-
-
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
+	// Get the extension's configuration
+	const config = vscode.workspace.getConfiguration('chatgpt');
+	// Read the 'SESSION_TOKEN' value from the 'section1' section of the configuration
+	const sessionToken = config.get('SESSION_TOKEN') as string|undefined;
+
 	const provider = new ChatGPTViewProvider(context.extensionUri);
+	provider.setSessionToken(sessionToken);
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(ChatGPTViewProvider.viewType, provider));
@@ -26,7 +26,22 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 	context.subscriptions.push(disposable2);
 
+
+
+	// Change the extension's session token when configuration is changed
+	vscode.workspace.onDidChangeConfiguration((event: vscode.ConfigurationChangeEvent) => {
+		if (event.affectsConfiguration('chatgpt.SESSION_TOKEN')) {
+				// Get the extension's configuration
+				const config = vscode.workspace.getConfiguration('chatgpt');
+				// Read the 'SESSION_TOKEN' value from the 'section1' section of the configuration
+				const sessionToken = config.get('SESSION_TOKEN') as string|undefined;
+				// add the new token to the provider
+				provider.setSessionToken(sessionToken);
+		}
+});
 }
+
+
 
 
 
@@ -36,22 +51,30 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 	private _view?: vscode.WebviewView;
 
 	// This variable holds a reference to the ChatGPTAPI instance
-	private _chatGPTAPI: ChatGPTAPI | undefined;
+	private _chatGPTAPI?: ChatGPTAPI;
 
-	// In the constructor, we store the URI of the extension and initialize a new ChatGPTAPI instance
-	constructor(
-		private readonly _extensionUri: vscode.Uri,
-	) {
+	private _response?: string;
+
+	private _sessionToken?: string;
+
+	// In the constructor, we store the URI of the extension
+	constructor(private readonly _extensionUri: vscode.Uri) {
+		
+	}
+	
+	// Set the session token and create a new API instance based on this token
+	public setSessionToken(sessionToken?: string) {
+		this._sessionToken = sessionToken;
 		this._newAPI();
 	}
 
 	// This private method initializes a new ChatGPTAPI instance, using the session token if it is set
 	private _newAPI() {
-		if (!SESSION_TOKEN) {
+		if (!this._sessionToken) {
 			console.warn("Session token not set");
 		}else{
 			this._chatGPTAPI = new ChatGPTAPI({
-				sessionToken: SESSION_TOKEN
+				sessionToken: this._sessionToken
 			});
 		}
 	}
@@ -64,8 +87,8 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 	) {
 		this._view = webviewView;
 
-			// set options for the webview
-			webviewView.webview.options = {
+		// set options for the webview
+		webviewView.webview.options = {
 			// Allow scripts in the webview
 			enableScripts: true,
 			localResourceRoots: [
@@ -94,6 +117,13 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 					}
 			}
 		});
+
+		// when extension panel opens shows the previous response again
+		webviewView.onDidChangeVisibility(e => {
+			if (this._view && this._view.visible) {
+				this._view.webview.postMessage({ type: 'addResponse', value: this._response });
+			}
+		});
 	}
 
 	public async search(prompt:string|undefined) {
@@ -106,13 +136,27 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 			this._newAPI();
 		}
 
-		// Check if the ChatGPTAPI instance is signed in
-		const isSignedIn = this._chatGPTAPI && await this._chatGPTAPI.ensureAuth();
-
 		let response = '';
+
+		// Check if the ChatGPTAPI instance is signed in
+		let isSignedIn = false;
+		try {
+			this._chatGPTAPI && await this._chatGPTAPI.ensureAuth();
+			isSignedIn = true;
+		} catch (e) {
+			console.error(e);
+		}
+
+
+
 		if (!isSignedIn || !this._chatGPTAPI) {
-			response = 'Please enter a valid API key in the extension settings';
+			response = '[ERROR] Please enter a valid API key in the extension settings';
 		} else {
+			// If successfully signed in
+			if (this._view) {
+				this._view.webview.postMessage({ type: 'addResponse', value: '...' });
+			}
+
 			// Get the selected text of the active editor
 			const selection = vscode.window.activeTextEditor?.selection;
 			const selectedText = vscode.window.activeTextEditor?.document.getText(selection);
@@ -127,9 +171,21 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 				searchPrompt = prompt;
 			}
 
+			console.log("sendMessage");
 			// Send the search prompt to the ChatGPTAPI instance and store the response
-			response = await this._chatGPTAPI.sendMessage(searchPrompt);
+			response = await this._chatGPTAPI.sendMessage(searchPrompt, {
+				onProgress: (partialResponse) => {
+					if (this._view && this._view.visible) {
+						this._view.webview.postMessage({ type: 'addResponse', value: partialResponse });
+					}
+				}
+			});
 		}
+
+		// Saves the response
+		this._response = response;
+
+		console.log(response);
 
 		// Show the view and send a message to the webview with the response
 		if (this._view) {

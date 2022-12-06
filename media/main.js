@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-ignore 
 
 // This script will be run within the webview itself
 // It cannot access the main VS Code APIs directly.
@@ -23,16 +23,39 @@
     }
   });
 
+  function fixCodeBlocks(response) {
+  // Use a regular expression to find all occurrences of the substring in the string
+  const REGEX_CODEBLOCK = new RegExp('\`\`\`', 'g');
+  const matches = response.match(REGEX_CODEBLOCK);
+
+  // Return the number of occurrences of the substring in the response, check if even
+  const count = matches ? matches.length : 0;
+  if (count % 2 === 0) {
+    return response;
+  } else {
+    // else append ``` to the end to make the last code block complete
+    return response.concat('\n\`\`\`');
+  }
+
+  }
+
   function setResponse() {
-        var converter = new showdown.Converter();
+        var converter = new showdown.Converter({
+          omitExtraWLInCodeBlocks: true, 
+          simplifiedAutoLink: true,
+          excludeTrailingPunctuationFromURLs: true,
+          literalMidWordUnderscores: true,
+          simpleLineBreaks: true
+        });
+        response = fixCodeBlocks(response);
         html = converter.makeHtml(response);
         document.getElementById("response").innerHTML = html;
 
         var preCodeBlocks = document.querySelectorAll("pre code");
         for (var i = 0; i < preCodeBlocks.length; i++) {
             preCodeBlocks[i].classList.add(
-              "p-4",
-              "my-4",
+              "p-2",
+              "my-2",
               "block"
             );
         }
@@ -43,7 +66,7 @@
                 codeBlocks[i].innerText = codeBlocks[i].innerText.replace("Copy code", "");
             }
 
-            codeBlocks[i].classList.add("p-1", "inline-flex", "max-w-full", "overflow-hidden", "border", "rounded-sm", "cursor-pointer");
+            codeBlocks[i].classList.add("p-1", "inline-flex", "max-w-full", "overflow-x-scroll", "border", "rounded-sm", "cursor-pointer");
 
             codeBlocks[i].addEventListener('click', function (e) {
                 e.preventDefault();

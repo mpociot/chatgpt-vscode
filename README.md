@@ -31,8 +31,6 @@ To use this extension, you will need to authenticate with a valid session token 
 
 Once you have obtained a session token, you can configure the extension to use it as described in the previous section.
 
-Extensions should then be restarted in order to work.
-
 
 ## Using the Extension
 
@@ -42,13 +40,6 @@ To use the extension, open a text editor in Visual Studio Code and open the Chat
 You can also select a code snippet in the editor and then enter a prompt in the side panel. The selected code will be automatically appended to your query when it is sent to the AI. This can be useful for generating code snippets or getting explanations for specific pieces of code.
 
 To insert a code snippet from the AI's response into the editor, simply click on the code block in the panel. The code will be automatically inserted at the cursor position in the active editor.
-
-
-## Current Issues
-
-*This is only applicable if you want to compile from source code*
-
-After installing the dependencies, you need to modify the `exports` property of `node_modules\chatgpt\package.json` by moving the `default` property to be the last one in the object (`"exports": { "import": "./build/index.js", "types": "./build/index.d.ts", "default": "./build/index.js" },`)
 
 ---
 
