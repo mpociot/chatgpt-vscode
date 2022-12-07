@@ -49,6 +49,15 @@
           "title": "Session Token"
         }
       }
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "chatgpt.ask",
+          "when": "editorTextFocus",
+          "group": "navigation"
+        }
+      ]
     }
   },
   "scripts": {

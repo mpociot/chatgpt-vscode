@@ -171,6 +171,14 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 				searchPrompt = prompt;
 			}
 
+			// focus gpt activity from activity bar
+			vscode.commands.executeCommand('workbench.view.extension.chatgpt');
+
+			// modify the input tag to show the search prompt as input value
+			if (this._view) {
+				this._view.webview.postMessage({ type: 'setPrompt', value: searchPrompt });
+			}
+	
 			console.log("sendMessage");
 			// Send the search prompt to the ChatGPTAPI instance and store the response
 			response = await this._chatGPTAPI.sendMessage(searchPrompt, {
