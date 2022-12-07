@@ -17,7 +17,10 @@ export function activate(context: vscode.ExtensionContext) {
 	provider.setSessionToken(sessionToken);
 
 	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider(ChatGPTViewProvider.viewType, provider));
+		vscode.window.registerWebviewViewProvider(ChatGPTViewProvider.viewType, provider,  {
+			webviewOptions: { retainContextWhenHidden: true }
+		})
+	);
 
 	let disposable2 = vscode.commands.registerCommand('chatgpt.ask', () => {
 		vscode.window.showInputBox({ prompt: 'What do you want to do?' }).then((value) => {
@@ -54,6 +57,7 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 	private _chatGPTAPI?: ChatGPTAPI;
 
 	private _response?: string;
+	private _prompt?: string;
 
 	private _sessionToken?: string;
 
@@ -117,16 +121,10 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 					}
 			}
 		});
-
-		// when extension panel opens shows the previous response again
-		webviewView.onDidChangeVisibility(e => {
-			if (this._view && this._view.visible) {
-				this._view.webview.postMessage({ type: 'addResponse', value: this._response });
-			}
-		});
 	}
 
 	public async search(prompt:string|undefined) {
+		this._prompt = prompt;
 		if (!prompt) {
 			prompt = '';
 		};
@@ -135,6 +133,14 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 		if (!this._chatGPTAPI) {
 			this._newAPI();
 		}
+
+		// focus gpt activity from activity bar
+		if (!this._view) {
+			await vscode.commands.executeCommand('chatgpt.chatView.focus');
+		} else {
+				this._view?.show?.(true);
+		}
+
 
 		let response = '';
 
@@ -171,15 +177,11 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 				searchPrompt = prompt;
 			}
 
-			// focus gpt activity from activity bar
-			vscode.commands.executeCommand('workbench.view.extension.chatgpt');
-
-			// modify the input tag to show the search prompt as input value
-			if (this._view) {
-				this._view.webview.postMessage({ type: 'setPrompt', value: searchPrompt });
-			}
-	
 			console.log("sendMessage");
+
+			// Make sure theprompt is shown
+			this._view?.webview.postMessage({ type: 'setPrompt', value: this._prompt });
+
 			// Send the search prompt to the ChatGPTAPI instance and store the response
 			response = await this._chatGPTAPI.sendMessage(searchPrompt, {
 				onProgress: (partialResponse) => {
@@ -192,8 +194,6 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 
 		// Saves the response
 		this._response = response;
-
-		// console.log(response);
 
 		// Show the view and send a message to the webview with the response
 		if (this._view) {

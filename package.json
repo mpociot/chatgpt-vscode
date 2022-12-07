@@ -55,7 +55,7 @@
         {
           "command": "chatgpt.ask",
           "when": "editorTextFocus",
-          "group": "navigation"
+          "group": "chatgpt-menu-group@1"
         }
       ]
     }

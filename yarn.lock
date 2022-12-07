@@ -274,9 +274,9 @@
     "eslint-visitor-keys" "^3.3.0"
 
 "@vscode/test-electron@^2.2.0":
-  "integrity" "sha512-xk2xrOTMG75/hxO8OVVZ+GErv9gmdZwOD8rEHV3ty3n1Joav2yFcfrmqD6Ukref27U13LEL8gVvSHzauGAK5nQ=="
-  "resolved" "https://registry.npmjs.org/@vscode/test-electron/-/test-electron-2.2.0.tgz"
-  "version" "2.2.0"
+  "integrity" "sha512-DUdwSYVc9p/PbGveaq20dbAAXHfvdq4zQ24ILp6PKizOBxrOfMsOq8Vts5nMzeIo0CxtA/RxZLFyDv001PiUSg=="
+  "resolved" "https://registry.npmjs.org/@vscode/test-electron/-/test-electron-2.2.1.tgz"
+  "version" "2.2.1"
   dependencies:
     "http-proxy-agent" "^4.0.1"
     "https-proxy-agent" "^5.0.0"
