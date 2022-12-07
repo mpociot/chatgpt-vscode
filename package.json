@@ -1,8 +1,14 @@
 {
   "name": "chatgpt",
-  "displayName": "chatgpt",
-  "description": "",
-  "version": "0.2.1",
+  "displayName": "ChatGPT: write and improve code using AI",
+  "description": "A VSCode extension that allows you to use ChatGPT in IDE (unofficial)",
+  "version": "0.2.2",
+  "publisher": "timkmecl",
+  "icon": "resources/extensionIcon.png",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/timkmecl/chatgpt-vscode"
+  },
   "engines": {
     "vscode": "^1.73.0"
   },

@@ -2,6 +2,8 @@
 
 This Visual Studio Code extension allows you to use the [unofficial ChatGPT API](https://github.com/transitive-bullshit/chatgpt-api) to generate natural language responses from OpenAI's [ChatGPT](https://chat.openai.com/chat) to your questions, right within the editor.
 
+### [Marketplace](https://marketplace.visualstudio.com/items?itemName=timkmecl.chatgpt), [Github](https://github.com/timkmecl/chatgpt-vscode)
+
 ## Features
 - Ask general questions or use code snippets from the editor to query ChatGPT
 - View its responses in a panel next to the editor
@@ -10,13 +12,11 @@ This Visual Studio Code extension allows you to use the [unofficial ChatGPT API]
 
 ## Instalation
 
-To just install this extension, download `.vsix` file from Releases.
-1. Open the `Extensions` panel in VSCode by going to the `View` menu and selecting `Extensions`.
-2. Click on the `...` icon at the top right of the panel, and select `Install from VSIX`.
-3. Select the downloaded VSIX file to begin installation.
-4. After the installation is complete, you will need to add your ChatGPT session token to the extension settings in VSCode. To do this, open the `Settings` panel by going to the `Code` menu and selecting `Preferences`, then `Settings`.
-5. In the search bar, type `ChatGPT` to filter the settings list.
-6. In the ChatGPT section, enter your session token in the `SESSION_TOKEN` field.
+To use this extension, install it from the VSCode marketplace or download and install `.vsix` file from Releases.
+
+1. After the installation is complete, you will need to add your ChatGPT session token to the extension settings in VSCode. To do this, open the `Settings` panel by going to the `Code` menu and selecting `Preferences`, then `Settings`.
+2. In the search bar, type `ChatGPT` to filter the settings list.
+3. In the ChatGPT section, enter your session token in the `SESSION_TOKEN` field.
 
 After completing these steps, the extension should be ready to use. 
 
