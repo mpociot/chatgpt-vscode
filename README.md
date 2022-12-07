@@ -2,7 +2,10 @@
 
 This Visual Studio Code extension allows you to use the [unofficial ChatGPT API](https://github.com/transitive-bullshit/chatgpt-api) to generate natural language responses from OpenAI's [ChatGPT](https://chat.openai.com/chat) to your questions, right within the editor.
 
+
 ### [Marketplace](https://marketplace.visualstudio.com/items?itemName=timkmecl.chatgpt), [Github](https://github.com/timkmecl/chatgpt-vscode)
+
+<img src="examples/refactor.png" alt="Refactoring selected code using chatGPT"/>
 
 ## Features
 - Ask general questions or use code snippets from the editor to query ChatGPT
@@ -34,13 +37,17 @@ Once you have obtained a session token, you can configure the extension to use i
 
 ## Using the Extension
 
-
 To use the extension, open a text editor in Visual Studio Code and open the ChatGPT panel by clicking on the ChatGPT icon in the sidebar. This will open a panel with an input field where you can enter your prompt or question. By clicking enter, it will be sent to ChatGPT. Its response will be displayed below the input field in the sidebar (note that it may take some time for it to be calculated).
+
+<img src="examples/create.png" alt="Writing new code using chatGPT" width="500"/>
 
 You can also select a code snippet in the editor and then enter a prompt in the side panel, or right-click and select "Ask ChatGPT". The selected code will be automatically appended to your query when it is sent to the AI. This can be useful for generating code snippets or getting explanations for specific pieces of code.
 
+<img src="examples/explain.png" alt="Refactoring selected code using chatGPT"/>
+
 To insert a code snippet from the AI's response into the editor, simply click on the code block in the panel. The code will be automatically inserted at the cursor position in the active editor.
 
+<img src="examples/refactor.png" alt="chatGPT explaining selected code"/>
 ---
 
 Please note that this extension is currently a proof of concept and may have some limitations or bugs. We welcome feedback and contributions to improve the extension.
