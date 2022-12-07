@@ -185,7 +185,7 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 		// Saves the response
 		this._response = response;
 
-		console.log(response);
+		// console.log(response);
 
 		// Show the view and send a message to the webview with the response
 		if (this._view) {
@@ -197,19 +197,27 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 	private _getHtmlForWebview(webview: vscode.Webview) {
 
 		const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.js'));
+		const microlightUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'scripts', 'microlight.min.js'));
+		const tailwindUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'scripts', 'showdown.min.js'));
+		const showdownUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'scripts', 'tailwind.min.js'));
 
 		return `<!DOCTYPE html>
 			<html lang="en">
 			<head>
 				<meta charset="UTF-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<script src="  https://unpkg.com/showdown/dist/showdown.min.js"></script>
-				<script src="https://cdn.tailwindcss.com"></script>
+				<script src="${tailwindUri}"></script>
+				<script src="${showdownUri}"></script>
+				<script src="${microlightUri}"></script>
+				<style>
+				.code {
+					white-space : pre;
+				</style>
 			</head>
 			<body>
-				<input class="h-10 w-full text-white bg-stone-700 p-4 text-md font-mono" type="text" id="prompt-input" />
+				<input class="h-10 w-full text-white bg-stone-700 p-4 text-sm" type="text" id="prompt-input" />
 
-				<div id="response" class="pt-4 text-md">
+				<div id="response" class="pt-6 text-sm">
 				</div>
 
 				<script src="${scriptUri}"></script>
