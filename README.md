@@ -1,16 +1,19 @@
-# ChatGPT for VSCode
+# ChatGPT Extension for VSCode
 
 This Visual Studio Code extension allows you to use the [unofficial ChatGPT API](https://github.com/transitive-bullshit/chatgpt-api) to generate natural language responses from OpenAI's [ChatGPT](https://chat.openai.com/chat) to your questions, right within the editor.
 
 
 ### [Marketplace](https://marketplace.visualstudio.com/items?itemName=timkmecl.chatgpt), [Github](https://github.com/timkmecl/chatgpt-vscode)
 
-<img src="examples/refactor.png" alt="Refactoring selected code using chatGPT"/>
+<br>
+
+<img src="examples/main.png" alt="Refactoring selected code using chatGPT"/>
 
 ## Features
-- Ask general questions or use code snippets from the editor to query ChatGPT
-- View its responses in a panel next to the editor
-- Insert code snippets from the AI's response into the active editor
+- **Ask general questions** or use code snippets from the editor to query ChatGPT via an input box in the sidebar
+- Right click on selection and run one of the context menu **shortcuts**
+- View ChatGPT's responses in a panel next to the editor
+- **Insert code snippets** from the AI's response into the active editor by clicking on them
 
 
 ## Instalation
@@ -23,7 +26,7 @@ To use this extension, install it from the VSCode marketplace or download and in
 
 After completing these steps, the extension should be ready to use. 
 
-## Obtaining the session token
+### Obtaining the session token
 
 To use this extension, you will need to authenticate with a valid session token from ChatGPT. To get a session token:
 
@@ -48,9 +51,25 @@ You can also select a code snippet in the editor and then enter a prompt in the 
 To insert a code snippet from the AI's response into the editor, simply click on the code block in the panel. The code will be automatically inserted at the cursor position in the active editor.
 
 <img src="examples/refactor.png" alt="chatGPT explaining selected code"/>
+
+You can select some code in the editor, right click on it and choose one of the following from the context menu:
+#### Commands:
+- `Ask ChatGPT`: will provide a prompt for you to enter any query
+- `ChatGPT: Explain selection`: will explain what the selected code does
+- `ChatGPT: Refactor selection`: will try to refactor the selected code
+- `ChatGPT: Find problems`: looks for problems/errors in the selected code, fixes and explains them
+- `ChatGPT: Optimize selection`: tries to optimize the selected code
+
+`Ask ChatGPT` is also available when nothing is selected. For the other four commands, you can customize the exact prompt that will be sent to the AI by editing the extension settings in VSCode Preferences.
+
 ---
 
 Please note that this extension is currently a proof of concept and may have some limitations or bugs. We welcome feedback and contributions to improve the extension.
 
 
-The extension makes use of this [ChatGPT package](https://github.com/transitive-bullshit/chatgpt-api), which uses ChatGPT unofficial API in order to login and communicate with ChatGPT.
+## Credits
+
+- This wouldn't be possible without OpenAI's [ChtGPT](https://chat.openai.com/chat)
+- The extension makes use of [chatgpt-api](https://github.com/transitive-bullshit/chatgpt-api) (by [Travis Fischer](https://github.com/transitive-bullshit)), which uses ChatGPT unofficial API in order to login and communicate with it.
+- It is built on top of [mpociot/chatgpt-vscode](https://github.com/mpociot/chatgpt-vscode), which started this project
+- `v0.3` inspired and based on [barnesoir/chatgpt-vscode-plugin](https://github.com/barnesoir/chatgpt-vscode-plugin) and [gencay/vscode-chatgpt](https://github.com/gencay/vscode-chatgpt)

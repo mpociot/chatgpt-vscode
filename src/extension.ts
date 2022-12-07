@@ -2,44 +2,65 @@ import * as vscode from 'vscode';
 import { ChatGPTAPI } from 'chatgpt';
 
 
-
-
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
-	// Get the extension's configuration
+	// Get the API session token from the extension's configuration
 	const config = vscode.workspace.getConfiguration('chatgpt');
-	// Read the 'SESSION_TOKEN' value from the 'section1' section of the configuration
-	const sessionToken = config.get('SESSION_TOKEN') as string|undefined;
+	const sessionToken = config.get('sessionToken') as string|undefined;
 
+	// Create a new ChatGPTViewProvider instance and register it with the extension's context
 	const provider = new ChatGPTViewProvider(context.extensionUri);
 	provider.setSessionToken(sessionToken);
-
+	provider.selectedInsideCodeblock = config.get('selectedInsideCodeblock') || false;
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(ChatGPTViewProvider.viewType, provider,  {
 			webviewOptions: { retainContextWhenHidden: true }
 		})
 	);
 
-	let disposable2 = vscode.commands.registerCommand('chatgpt.ask', () => {
+
+	const commandHandler = (command:string) => {
+		const config = vscode.workspace.getConfiguration('chatgpt');
+		const prompt = config.get(command) as string;
+		provider.search(prompt, true);
+	};
+
+	const commandAsk = vscode.commands.registerCommand('chatgpt.ask', () => {
 		vscode.window.showInputBox({ prompt: 'What do you want to do?' }).then((value) => {
 			provider.search(value);
 		});
 	});
-	context.subscriptions.push(disposable2);
+	const commandExplain = vscode.commands.registerCommand('chatgpt.explain', () => {	
+		commandHandler('promptPrefix.explain');
+	});
+	const commandRefactor = vscode.commands.registerCommand('chatgpt.refactor', () => {
+		commandHandler('promptPrefix.refactor');
+	});
+	const commandOptimize = vscode.commands.registerCommand('chatgpt.optimize', () => {
+		commandHandler('promptPrefix.optimize');
+	});
+	const commandProblems = vscode.commands.registerCommand('chatgpt.findProblems', () => {
+		commandHandler('promptPrefix.findProblems');
+	});
+	
+
+	context.subscriptions.push(commandAsk, commandExplain, commandRefactor, commandOptimize, commandProblems);
 
 
 
 	// Change the extension's session token when configuration is changed
 	vscode.workspace.onDidChangeConfiguration((event: vscode.ConfigurationChangeEvent) => {
-		if (event.affectsConfiguration('chatgpt.SESSION_TOKEN')) {
+		if (event.affectsConfiguration('chatgpt.sessionToken')) {
 				// Get the extension's configuration
 				const config = vscode.workspace.getConfiguration('chatgpt');
-				// Read the 'SESSION_TOKEN' value from the 'section1' section of the configuration
-				const sessionToken = config.get('SESSION_TOKEN') as string|undefined;
+				const sessionToken = config.get('sessionToken') as string|undefined;
 				// add the new token to the provider
 				provider.setSessionToken(sessionToken);
+		} else if (event.affectsConfiguration('chatgpt.selectedInsideCodeblock')) {
+			const config = vscode.workspace.getConfiguration('chatgpt');
+			provider.selectedInsideCodeblock = config.get('selectedInsideCodeblock') || false;
+		} else if (event.affectsConfiguration('chatgpt.pasteOnClick')) {
+			const config = vscode.workspace.getConfiguration('chatgpt');
+			provider.pasteOnClick = config.get('pasteOnClick') || false;
 		}
 });
 }
@@ -59,6 +80,9 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 	private _response?: string;
 	private _prompt?: string;
 
+
+	public selectedInsideCodeblock = false;
+	public pasteOnClick = true;
 	private _sessionToken?: string;
 
 	// In the constructor, we store the URI of the extension
@@ -82,7 +106,6 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 			});
 		}
 	}
-
 
 	public resolveWebviewView(
 		webviewView: vscode.WebviewView,
@@ -108,6 +131,11 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 			switch (data.type) {
 				case 'codeSelected':
 					{
+						// do nothing if the pasteOnClick option is disabled
+						if (!this.pasteOnClick) {
+							break;
+						}
+
 						let code = data.value;
 						code = code.replace(/([^\\])(\$)([^{0-9])/g, "$1\\$$$3");
 
@@ -123,7 +151,9 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 		});
 	}
 
-	public async search(prompt:string|undefined) {
+
+
+	public async search(prompt:string|undefined, fromCommand:boolean = false) {
 		this._prompt = prompt;
 		if (!prompt) {
 			prompt = '';
@@ -170,16 +200,19 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 
 			if (selection && selectedText) {
 				// If there is a selection, add the prompt and the selected text to the search prompt
-				searchPrompt = `${prompt}\n${selectedText}\n`;
-				
+				if (this.selectedInsideCodeblock) {
+					searchPrompt = `${prompt}\n\`\`\`\n${selectedText}\n\`\`\``;
+				} else {
+					searchPrompt = `${prompt}\n${selectedText}\n`;
+				}
 			} else {
-				// Otherwise, just use the prompt
+				// Otherwise, just use the prompt if user typed it
 				searchPrompt = prompt;
 			}
 
 			console.log("sendMessage");
 
-			// Make sure theprompt is shown
+			// Make sure the prompt is shown
 			this._view?.webview.postMessage({ type: 'setPrompt', value: this._prompt });
 
 			// Send the search prompt to the ChatGPTAPI instance and store the response

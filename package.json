@@ -2,7 +2,7 @@
   "name": "chatgpt",
   "displayName": "ChatGPT: write and improve code using AI",
   "description": "A VSCode extension that allows you to use ChatGPT in IDE (unofficial)",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "publisher": "timkmecl",
   "icon": "resources/extensionIcon.png",
   "license": "MIT",
@@ -16,8 +16,12 @@
     "Other"
   ],
   "activationEvents": [
+    "onView:chatgpt.chatView",
     "onCommand:chatgpt.ask",
-    "onView:chatgpt.chatView"
+    "onCommand:chatgpt.explain",
+    "onCommand:chatgpt.refactor",
+    "onCommand:chatgpt.optimize",
+    "onCommand:chatgpt.problems"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -25,8 +29,53 @@
       {
         "command": "chatgpt.ask",
         "title": "Ask ChatGPT"
+      },
+      {
+        "command": "chatgpt.explain",
+        "title": "ChatGPT: Explain selection"
+      },
+      {
+        "command": "chatgpt.refactor",
+        "title": "ChatGPT: Refactor selection"
+      },
+      {
+        "command": "chatgpt.findProblems",
+        "title": "ChatGPT: Find problems"
+      },
+      {
+        "command": "chatgpt.optimize",
+        "title": "ChatGPT: Optimize selection"
       }
     ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "chatgpt.ask",
+          "when": "editorTextFocus",
+          "group": "chatgpt-menu-group@1"
+        },
+        {
+          "command": "chatgpt.explain",
+          "when": "editorHasSelection",
+          "group": "chatgpt-menu-group@2"
+        },
+        {
+          "command": "chatgpt.refactor",
+          "when": "editorHasSelection",
+          "group": "chatgpt-menu-group@3"
+        },
+        {
+          "command": "chatgpt.findProblems",
+          "when": "editorHasSelection",
+          "group": "chatgpt-menu-group@4"
+        },
+        {
+          "command": "chatgpt.optimize",
+          "when": "editorHasSelection",
+          "group": "chatgpt-menu-group@5"
+        }
+      ]
+    },
     "viewsContainers": {
       "activitybar": [
         {
@@ -46,24 +95,51 @@
       ]
     },
     "configuration": {
-      "type": "object",
       "title": "chatGPT",
+      "type": "object",
       "properties": {
-        "chatgpt.SESSION_TOKEN": {
+        "chatgpt.sessionToken": {
           "type": "string",
           "description": "A session token you get when logged into chat.openai.com",
-          "title": "Session Token"
+          "order": 1
+        },
+        "chatgpt.pasteOnClick": {
+          "type": "boolean",
+          "default": true,
+          "description": "Paste the code from a codeblock inside the response into the editor when you click on it?",
+          "order": 2
+        },
+        "chatgpt.promptPrefix.explain": {
+          "type": "string",
+          "default": "Explain what this code does: ",
+          "description": "The prompt prefix used for explaining the selected code",
+          "order": 3
+        },
+        "chatgpt.promptPrefix.refactor": {
+          "type": "string",
+          "default": "Refactor this code and explain what's changed: ",
+          "description": "The prompt prefix used for refactoring the selected code",
+          "order": 4
+        },
+        "chatgpt.promptPrefix.findProblems": {
+          "type": "string",
+          "default": "Find problems with the following code, fix them and explain what was wrong (Do not change anything else): ",
+          "description": "The prompt prefix used for finding problems in the selected code",
+          "order": 5
+        },
+        "chatgpt.promptPrefix.optimize": {
+          "type": "string",
+          "default": "Optimize the following code: ",
+          "description": "The prompt prefix used for optimizing the selected code",
+          "order": 6
+        },
+        "chatgpt.selectedInsideCodeblock": {
+          "type": "boolean",
+          "default": true,
+          "description": "Append selected code as a codeblock (```...code...```) instead of plain text?",
+          "order": 7
         }
       }
-    },
-    "menus": {
-      "editor/context": [
-        {
-          "command": "chatgpt.ask",
-          "when": "editorTextFocus",
-          "group": "chatgpt-menu-group@1"
-        }
-      ]
     }
   },
   "scripts": {
