@@ -1,8 +1,8 @@
 {
   "name": "chatgpt",
   "displayName": "ChatGPT: write and improve code using AI",
-  "description": "A VSCode extension that allows you to use ChatGPT in IDE (unofficial)",
-  "version": "0.3.0",
+  "description": "Extension that allows you to use OpeanAI's ChatGPT inside the IDE (unofficial)",
+  "version": "0.4.0",
   "publisher": "timkmecl",
   "icon": "resources/extensionIcon.png",
   "license": "MIT",
@@ -14,6 +14,16 @@
   },
   "categories": [
     "Other"
+  ],
+  "keywords": [
+    "copilot",
+    "openai",
+    "chatgpt",
+    "ai",
+    "explain",
+    "find bugs",
+    "explain ",
+    "refactor"
   ],
   "activationEvents": [
     "onView:chatgpt.chatView",
@@ -45,6 +55,14 @@
       {
         "command": "chatgpt.optimize",
         "title": "ChatGPT: Optimize selection"
+      },
+      {
+        "command": "chatgpt.conversationId",
+        "title": "Set ChatGPT conversation ID"
+      },
+      {
+        "command": "chatgpt.resetConversation",
+        "title": "Reset ChatGPT conversation"
       }
     ],
     "menus": {
@@ -73,6 +91,33 @@
           "command": "chatgpt.optimize",
           "when": "editorHasSelection",
           "group": "chatgpt-menu-group@5"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "chatgpt.ask"
+        },
+        {
+          "command": "chatgpt.explain",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "chatgpt.refactor",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "chatgpt.findProblems",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "chatgpt.optimize",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "chatgpt.conversationId"
+        },
+        {
+          "command": "chatgpt.resetConversation"
         }
       ]
     },
@@ -106,7 +151,7 @@
         "chatgpt.pasteOnClick": {
           "type": "boolean",
           "default": true,
-          "description": "Paste the code from a codeblock inside the response into the editor when you click on it?",
+          "description": "Paste the code from a codeblock inside the response into the editor when you click on it",
           "order": 2
         },
         "chatgpt.promptPrefix.explain": {
@@ -133,11 +178,22 @@
           "description": "The prompt prefix used for optimizing the selected code",
           "order": 6
         },
+        "chatgpt.keepConversation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Keep the conversation going by using the same conversation ID for all requests (allows follow-up questions)",
+          "order": 7
+        },"chatgpt.timeoutLength": {
+          "type": "number",
+          "default": "60",
+          "description": "How long should the request wait for a response before timing out (in seconds)",
+          "order": 8
+        },
         "chatgpt.selectedInsideCodeblock": {
           "type": "boolean",
           "default": true,
-          "description": "Append selected code as a codeblock (```...code...```) instead of plain text?",
-          "order": 7
+          "description": "Append selected code as a codeblock (```...code...```) instead of plain text",
+          "order": 9
         }
       }
     }
@@ -170,6 +226,6 @@
     "webpack-cli": "^5.0.0"
   },
   "dependencies": {
-    "chatgpt": "^1.4.0"
+    "chatgpt": "^2.0.5"
   }
 }

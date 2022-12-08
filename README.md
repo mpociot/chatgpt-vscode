@@ -11,8 +11,9 @@ This Visual Studio Code extension allows you to use the [unofficial ChatGPT API]
 
 ## Features
 - **Ask general questions** or use code snippets from the editor to query ChatGPT via an input box in the sidebar
-- Right click on selection and run one of the context menu **shortcuts**
+- Right click on a code selection and run one of the context menu **shortcuts**
 - View ChatGPT's responses in a panel next to the editor
+- Ask **follow-up questions** to the response (conversation context is maintained)
 - **Insert code snippets** from the AI's response into the active editor by clicking on them
 
 
@@ -61,6 +62,10 @@ You can select some code in the editor, right click on it and choose one of the 
 - `ChatGPT: Optimize selection`: tries to optimize the selected code
 
 `Ask ChatGPT` is also available when nothing is selected. For the other four commands, you can customize the exact prompt that will be sent to the AI by editing the extension settings in VSCode Preferences.
+
+
+Because ChatGPT is a conversational AI, you can ask follow-up questions to the response. The conversation context is maintained between queries, so you can ask multiple questions in a row. 
+To **reset the conversation context**, click `ctrl+shift+p` and select `ChatGPT: Reset Conversation`.
 
 ---
 
