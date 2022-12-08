@@ -69,7 +69,7 @@ Please note that this extension is currently a proof of concept and may have som
 
 ## Credits
 
-- This wouldn't be possible without OpenAI's [ChtGPT](https://chat.openai.com/chat)
+- This wouldn't be possible without OpenAI's [ChatGPT](https://chat.openai.com/chat)
 - The extension makes use of [chatgpt-api](https://github.com/transitive-bullshit/chatgpt-api) (by [Travis Fischer](https://github.com/transitive-bullshit)), which uses ChatGPT unofficial API in order to login and communicate with it.
 - It is built on top of [mpociot/chatgpt-vscode](https://github.com/mpociot/chatgpt-vscode), which started this project
 - `v0.3` inspired and based on [barnesoir/chatgpt-vscode-plugin](https://github.com/barnesoir/chatgpt-vscode-plugin) and [gencay/vscode-chatgpt](https://github.com/gencay/vscode-chatgpt)

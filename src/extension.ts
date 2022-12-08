@@ -168,25 +168,13 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 		if (!this._view) {
 			await vscode.commands.executeCommand('chatgpt.chatView.focus');
 		} else {
-				this._view?.show?.(true);
+			this._view?.show?.(true);
 		}
-
 
 		let response = '';
 
-		// Check if the ChatGPTAPI instance is signed in
-		let isSignedIn = false;
-		try {
-			this._chatGPTAPI && await this._chatGPTAPI.ensureAuth();
-			isSignedIn = true;
-		} catch (e) {
-			console.error(e);
-		}
-
-
-
-		if (!isSignedIn || !this._chatGPTAPI) {
-			response = '[ERROR] Please enter a valid API key in the extension settings';
+		if (!this._chatGPTAPI) {
+			response = '[ERROR] Please enter an API key in the extension settings';
 		} else {
 			// If successfully signed in
 			if (this._view) {
@@ -215,14 +203,19 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 			// Make sure the prompt is shown
 			this._view?.webview.postMessage({ type: 'setPrompt', value: this._prompt });
 
-			// Send the search prompt to the ChatGPTAPI instance and store the response
-			response = await this._chatGPTAPI.sendMessage(searchPrompt, {
-				onProgress: (partialResponse) => {
-					if (this._view && this._view.visible) {
-						this._view.webview.postMessage({ type: 'addResponse', value: partialResponse });
+			try {
+				// Send the search prompt to the ChatGPTAPI instance and store the response
+				response = await this._chatGPTAPI.sendMessage(searchPrompt, {
+					onProgress: (partialResponse) => {
+						if (this._view && this._view.visible) {
+							this._view.webview.postMessage({ type: 'addResponse', value: partialResponse });
+						}
 					}
-				}
-			});
+				});
+			} catch (e) {
+				console.error(e);
+				response = `[ERROR] ${e}`;
+			}
 		}
 
 		// Saves the response
