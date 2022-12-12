@@ -17,7 +17,7 @@ This Visual Studio Code extension allows you to use the [unofficial ChatGPT API]
 - **Insert code snippets** from the AI's response into the active editor by clicking on them
 
 
-## Instalation
+## Installation
 
 To use this extension, install it from the VSCode marketplace or download and install `.vsix` file from Releases.
 
