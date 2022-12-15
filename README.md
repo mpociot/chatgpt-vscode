@@ -14,3 +14,4 @@ On the initial start, you will need to authenticate with OpenAI - this requires 
 When you are successfully authenticated, you can turn on headless mode so that the browser won't be visible.
 
 foo
+bar
