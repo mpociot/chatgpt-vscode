@@ -1,3 +1,5 @@
+const getPath = require("path");
+
 var ignoringWatcher = require('ignoring-watcher').createWatcher({
     // Directory to watch. Defaults to process.cwd()
     dir: __dirname,
@@ -81,8 +83,10 @@ const requestDelete = async (filePath, fileOpts = {}, headers = {}) => {
         // source_id: Optional[str] = None
     
       form.append('ids', [filePath]);
-      // form.append('filter', filePath);
       // iterate opts with extra metadata
+      Object.keys(fileOpts).forEach(key => {
+        form.append(key, fileOpts[key]);
+      });
     
       const resp = await axios.post(`${baseApiUrl}/delete`, form, {
         headers: {
@@ -98,8 +102,6 @@ const requestDelete = async (filePath, fileOpts = {}, headers = {}) => {
       return new Error(err.message);
     }
 };
-
-
   
 const accessToken = process.env.DATABASE_INTERFACE_BEARER_TOKEN;
 
@@ -117,12 +119,19 @@ async function deleteFile (filePath) {
     console.log(response);
 };
 
+import getProgrammingLanguage from "detect-programming-language";
+
+
 
 ignoringWatcher
     .on('modified', function(eventArgs) { // Fired for any change event (add, delete, etc.)
         var type = eventArgs.type; // add | addDir | change | unlink | unlinkDir
         var path = eventArgs.path; // The full file system path of the modified file
-        upsertFile(filePath);
+
+        const ext = getPath.extname(path);
+        const language = getProgrammingLanguage(ext);
+
+        upsertFile(filePath, {language});
     });
 ignoringWatcher    
     .on('add', function(eventArgs) { // Fired for any change event (add, delete, etc.)

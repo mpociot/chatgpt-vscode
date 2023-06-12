@@ -892,6 +892,11 @@
   "resolved" "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz"
   "version" "1.0.0"
 
+"detect-programming-language@^1.0.1":
+  "integrity" "sha512-31kFRf56KY0p6FXEdpewh/EDGYi+8WIUFxK7bcimFCktXepYkQ3kPEtFfslbNL0cCs/7+f+TQz03sg5AwkEwXQ=="
+  "resolved" "https://registry.npmjs.org/detect-programming-language/-/detect-programming-language-1.0.1.tgz"
+  "version" "1.0.1"
+
 "diff@5.0.0":
   "integrity" "sha512-/VTCrvm5Z0JGty/BWHljh+BAiw3IK+2j87NGMu8Nwc/f48WoDAC395uomO9ZD117ZOBaHmkX1oyLvkVM/aIT3w=="
   "resolved" "https://registry.npmjs.org/diff/-/diff-5.0.0.tgz"

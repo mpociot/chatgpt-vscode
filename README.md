@@ -142,6 +142,18 @@ or via script:
 
 `npm run file-agent`
 
+## Code chunks
+
+This extension intends to use LangChain [CodeSplitter](https://python.langchain.com/en/latest/modules/indexes/text_splitters/examples/code_splitter.html) to split the code files as code.
+
+A custom TypeScript splitter is included in `src/typescript-textsplitter.js`. It would be easy to add the same for Python.
+
+The retrieval plugin should be made to use a CodeSplitter for text files and other specific chunk splitters for other files (markdown, text etc) using LangChain.
+
+A placeholder file `services/code_chunks` is there to work from.
+
+Currently the file agent sends a special `language` metadata field as part of the `upsert` API call which can be used for chunking code files using an appropriate splitter.
+
 ## Using the Extension
 
 To use the extension, open a text editor in Visual Studio Code and open the ChatGPT panel by clicking on the ChatGPT icon in the sidebar. This will open a panel with an input field where you can enter your prompt or question. By clicking enter, it will be sent to ChatGPT. Its response will be displayed below the input field in the sidebar (note that it may take some time for it to be calculated).
@@ -173,7 +185,6 @@ To **reset the conversation context**, click `ctrl+shift+p` and select `ChatGPT:
 ---
 
 Please note that this extension is currently a proof of concept and may have some limitations or bugs. We welcome feedback and contributions to improve the extension.
-
 
 ## Credits
 
