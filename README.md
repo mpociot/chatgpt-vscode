@@ -15,6 +15,10 @@ This Visual Studio Code extension allows you to use the [unofficial ChatGPT API]
 
 <img src="examples/main.png" alt="Refactoring selected code using chatGPT"/>
 
+## Update
+
+Updated to use version 5.2.x [ChatGPT API](https://www.npmjs.com/package/chatgpt) Node.js library with support for GPT-4 using an API key instead of the old session key.
+
 ## Features
 - **Ask general questions** or use code snippets from the editor to query ChatGPT via an input box in the sidebar
 - Right click on a code selection and run one of the context menu **shortcuts**
@@ -27,22 +31,39 @@ This Visual Studio Code extension allows you to use the [unofficial ChatGPT API]
 
 To use this extension, install it from the VSCode marketplace or download and install `.vsix` file from Releases.
 
-1. After the installation is complete, you will need to add your ChatGPT session token to the extension settings in VSCode. To do this, open the `Settings` panel by going to the `Code` menu and selecting `Preferences`, then `Settings`.
+1. After the installation is complete, you will need to add your ChatGPT API key to the extension settings in VSCode. To do this, open the `Settings` panel by going to the `Code` menu and selecting `Preferences`, then `Settings`.
 2. In the search bar, type `ChatGPT` to filter the settings list.
-3. In the ChatGPT section, enter your session token in the `SESSION_TOKEN` field.
+3. In the ChatGPT section, enter your API key in the `API_KEY` field.
+
+Optionally add
+
+- `Model`
+- `Temperature`
+- `TopP`
+
+This lets you fine-tune how your instance of `ChatGPTAPI` is created, similar to:
+
+```ts
+const api = new ChatGPTAPI({
+  apiKey: process.env.OPENAI_API_KEY,
+  completionParams: {
+    model: 'gpt-4',
+    temperature: 0.5,
+    top_p: 0.8
+  }
+})
+```
 
 After completing these steps, the extension should be ready to use. 
 
-### Obtaining the session token
+### Obtaining the API key
 
-To use this extension, you will need to authenticate with a valid session token from ChatGPT. To get a session token:
+To use this extension, you will need to authenticate with a valid API key from ChatGPT. To get an API key:
 
 1. Go to https://chat.openai.com/chat and log in or sign up.
-2. Open the developer tools in your browser.
-3. Go to the `Application` tab and open the `Cookies` section.
-4. Copy the value for `__Secure-next-auth.session-token` and save it.
+2. Go to Profile -> API key
 
-Once you have obtained a session token, you can configure the extension to use it as described in the previous section.
+Once you have obtained a API key, you can configure the extension to use it as described in the previous section.
 
 
 ## Using the Extension
