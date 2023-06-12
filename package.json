@@ -132,11 +132,11 @@
     },
     "views": {
       "chatgpt": [
-				{
-					"type": "webview",
-					"id": "chatgpt.chatView",
-					"name": "ChatGPT"
-				}
+        {
+          "type": "webview",
+          "id": "chatgpt.chatView",
+          "name": "ChatGPT"
+        }
       ]
     },
     "configuration": {
@@ -198,7 +198,8 @@
           "default": true,
           "description": "Keep the conversation going by using the same conversation ID for all requests (allows follow-up questions)",
           "order": 7
-        },"chatgpt.timeoutLength": {
+        },
+        "chatgpt.timeoutLength": {
           "type": "number",
           "default": "60",
           "description": "How long should the request wait for a response before timing out (in seconds)",
@@ -222,7 +223,8 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "file-agent": "node src/file_agent.js"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
@@ -241,6 +243,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "chatgpt": "^5.2.5"
+    "chatgpt": "^5.2.5",
+    "langchain": "^0.0.92"
   }
 }

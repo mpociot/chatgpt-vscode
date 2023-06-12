@@ -65,6 +65,82 @@ To use this extension, you will need to authenticate with a valid API key from C
 
 Once you have obtained a API key, you can configure the extension to use it as described in the previous section.
 
+### Run ChatGPT plugin
+
+```
+cd retrieval
+pip install poetry
+poetry env use python3.10
+poetry shell
+poetry install
+```
+
+Set your environment variables
+
+```
+export DATASTORE=pinecone
+export BEARER_TOKEN=<your_database_interface_api_key>
+export OPENAI_API_KEY=<your_openai_api_key>
+export PINECONE_API_KEY=<your_pinecone_api_key>
+export PINECONE_ENVIRONMENT=<your_pinecone_region_name>
+export PINECONE_INDEX=<your_index_name>
+```
+
+### Run Database Interface Server
+When The config is ready. Under the project directory, run:
+
+`poetry run start`
+
+It will start your Database Interface server. Open your browser and open `http://0.0.0.0:8000/docs#/`. 
+
+If the page is up, you have successfully implemented the Database Interface module with Retrieval Plugin.
+
+## Using Vector Database to store code base
+
+The goal is to use an architecture similar to [chatgpt with external memory using vector database](https://betterprogramming.pub/enhancing-chatgpt-with-infinite-external-memory-using-vector-database-and-chatgpt-retrieval-plugin-b6f4ea16ab8)
+
+[![Vector DB architecture](/resources/VectorDB-architecture.webp)
+
+This will additionally use LangChain to chunk code files using a [Code splitter](https://python.langchain.com/en/latest/modules/indexes/text_splitters/examples/code_splitter.html) specific to the language of the code file being processed.
+
+We will need an agent running in OS in the background to monitor file changes which upserts and deletes vectors in the DB based on OS file operations. 
+
+It should only take into account files that are "source files" of the project. To achieve this, we can use `.gitignore` or `.npmignore` files foralong with a custom configuration.
+
+
+### Chokidar agent with ignore files
+
+We can use [chokidar](https://github.com/paulmillr/chokidar) as a battle-tested agent to monitor the file system for changes using file, dir, glob, or array of files to match.
+
+```ts
+// Initialize watcher.
+const watcher = chokidar.watch('file, dir, glob, or array', {
+  ignored: /(^|[\/\\])\../, // ignore dotfiles
+  persistent: true
+});
+
+// Something to use when events are received.
+const log = console.log.bind(console);
+// Add event listeners.
+watcher
+  .on('add', path => log(`File ${path} has been added`))
+  .on('change', path => log(`File ${path} has been changed`))
+  .on('unlink', path => log(`File ${path} has been removed`));
+```
+
+For any `add` or `change` we call the `upsert` API of the FastAPI python API for [GPT Retrieval Plugin](https://github.com/openai/chatgpt-retrieval-plugin.git).
+
+For `unlink` we call the `delete` endpoint.
+
+We will however use [ignoring-watcher](https://www.npmjs.com/package/ignoring-watcher) as a convenient wrapper of Chokidar :)
+
+The `file_agent.js` can be found in `src` and can be run simply via node:
+
+`node src/file_agent.js`
+
+or via script:
+
+`npm run file-agent`
 
 ## Using the Extension
 
