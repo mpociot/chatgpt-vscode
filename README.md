@@ -193,12 +193,14 @@ The retrieval plugin uses a normal text splitter for text files but uses LangCha
 
 Currently the file agent sends a special `language` metadata field as part of the `upsert` API call which can be used for chunking code files using an appropriate splitter.
 
-The agent will call `upsert` with the following meta-info based on the file path. 
+The agent will call the `upsert_file` Python API with the following meta-info based on the file path. 
 This is meta is determined on a "best effort" basis (some basic assumptions/rules), that can be customized as needed for the particular project.
 
 ```ts
   const meta = {
+    path: filePath,
     language, 
+    config: isConfig,
     test: isTest, 
     markdown: isMarkdown, 
     documentation: isDocumentation,
@@ -206,7 +208,37 @@ This is meta is determined on a "best effort" basis (some basic assumptions/rule
   };
 ```
 
-Currently only `language` is being picked up on the Python API side in `upsert` and used for code splitting (chunking).
+`language` will be picked up on the Python API side in `upsert` and is set, it will be used for code splitting (chunking) based on language specific chunk separators and rules.
+
+### Upsert file
+
+The upsert file Python logic is shown here for reference. First the Metadata is parsed into a `metadata_obj` that adheres to `DocumentMetadata` (see further below).
+
+This `metadata_obj` is then used to get a full `document` object (of type `Document`) from the file. This document is then stored in the Vector DB. 
+
+```py
+async def upsert_file(
+    file: UploadFile = File(...),
+    metadata: Optional[str] = Form(None),
+):
+    try:
+        metadata_obj = (
+            DocumentMetadata.parse_raw(metadata)
+            if metadata
+            else DocumentMetadata(source=Source.file)
+        )
+    except:
+        metadata_obj = DocumentMetadata(source=Source.file)
+
+    document = await get_document_from_file(file, metadata_obj)
+
+    try:
+        ids = await datastore.upsert([document])
+        return UpsertResponse(ids=ids)
+    except Exception as e:
+        logger.error(e)
+        raise HTTPException(status_code=500, detail=f"str({e})")
+```
 
 In the Python API `upsert` calls `get_document_chunks`, which calls `create_document_chunks` which calls `get_text_chunks`
 
@@ -221,6 +253,8 @@ class Document(BaseModel):
 
 `DocumentMetadata` has been expanded to contain some fields to specify more information regarding the particular document, to answer questions such as:
 
+- What is the local file path of the document?
+- What programming language is used?
 - Is it part of test suite?
 - Is it a configuration file?
 - Is it a source file?
@@ -231,11 +265,12 @@ class Document(BaseModel):
 class DocumentMetadata(BaseModel):
     source: Optional[Source] = None
     source_id: Optional[str] = None
+    path: Optional[str] = None
     language: Optional[str] = None
     config: Optional[bool] = None
     test: Optional[bool] = None
-    src: Optional[bool] = None
-    doc: Optional[bool] = None
+    source: Optional[bool] = None
+    documentation: Optional[bool] = None
     markdown: Optional[bool] = None
     url: Optional[str] = None
     created_at: Optional[str] = None
@@ -247,10 +282,11 @@ These fields have also been expanded into the filter:
 ```py
 class DocumentMetadataFilter(BaseModel):
     document_id: Optional[str] = None
+    path: Optional[str] = None
     language: Optional[str] = None
     config: Optional[bool] = None
     test: Optional[bool] = None
-    src: Optional[bool] = None
+    source: Optional[bool] = None
     documentation: Optional[bool] = None
     markdown: Optional[bool] = None
     source: Optional[Source] = None

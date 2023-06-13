@@ -12,6 +12,7 @@ class Source(str, Enum):
 class DocumentMetadata(BaseModel):
     source: Optional[Source] = None
     source_id: Optional[str] = None
+    path: Optional[str] = None
     language: Optional[str] = None
     config: Optional[bool] = None
     test: Optional[bool] = None
@@ -50,6 +51,7 @@ class DocumentWithChunks(Document):
 
 class DocumentMetadataFilter(BaseModel):
     document_id: Optional[str] = None
+    path: Optional[str] = None
     language: Optional[str] = None
     config: Optional[bool] = None
     test: Optional[bool] = None

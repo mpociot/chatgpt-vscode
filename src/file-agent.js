@@ -23,7 +23,27 @@ function getMeta(path) {
   if (path.match(/src\//) || path.match(/source\//) || path.match(/libs?\//)) {
     isSrc = true;
   }
-  
+
+  isConfig = false;
+  if (path.match(/configs?\//) || path.match(/configurations?\//)) {
+    isConfig = true;
+  }
+  if (ext.match(/\.ya?ml/)) {
+    isConfig = true;
+  }
+  if (ext.match(/\.json/)) {
+    isConfig = true;
+  }
+  if (ext.match(/\.xml/)) {
+    isConfig = true;
+  }
+  if (ext.match(/\.ini/)) {
+    isConfig = true;
+  }
+  if (ext.match(/\.env/)) {
+    isConfig = true;
+  }
+
   isMarkDown = false;
   if (['.md', '.mkd', '.mkdown', '.markdown'].includes(ext)) {
     isMarkDown = true;
@@ -37,7 +57,9 @@ function getMeta(path) {
   const language = getProgrammingLanguage(ext);
   
   const meta = {
+    path: filePath,
     language, 
+    config: isConfig,
     test: isTest, 
     markdown: isMarkdown, 
     documentation: isDocumentation,
