@@ -1,6 +1,4 @@
 #!/usr/bin/env node
 
-const projPath = process.env.PROJECT_PATH;
-
  const { startWatcher } = require("./file-agent");
- startWatcher(projPath);
+ startWatcher();

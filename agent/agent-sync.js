@@ -2,6 +2,10 @@ const path = require("path");
 const axios = require("axios");
 const baseApiUrl = process.env.BASE_API_URL || 'http://0.0.0.0:8000';
 
+const envProjPath = process.env.PROJECT_PATH;
+const defaultPath = getPath.join(__dirname, '..');
+const projPath = envProjPath || defaultPath;
+
 const requestUpsertFile = async (filePath, fileOpts = {}, headers = {}) => {
     try {
       const file = fs.createReadStream(filePath);    
@@ -70,12 +74,10 @@ const headers = {
     "Authorization": "Bearer " + accessToken // token
 };
 
-const projectPath = process.env.PROJECT_PATH;
-
 async function upsertFile (filePath) {
     const opts = {};
-    if (projectPath) {
-      const relativePath = path.relative(projectPath, filePath);
+    if (projPath) {
+      const relativePath = path.relative(projPath, filePath);
       opts = {relativePath};
     }    
     const response = await requestUpsertFile(filePath, opts, headers);
@@ -89,5 +91,6 @@ async function deleteFile (filePath) {
 
 module.exports = {
   upsertFile,
-  deleteFile
-}
+  deleteFile,
+  projPath
+};

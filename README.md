@@ -133,7 +133,6 @@ We will need an agent running in the project root directory in the background to
 
 It should only take into account files that are "source files" of the project. To achieve this, we can use `.gitignore` or `.npmignore` files along with a custom configuration.
 
-
 ### Chokidar agent with ignore files
 
 We can use [chokidar](https://github.com/paulmillr/chokidar) as a battle-tested agent to monitor the file system for changes using file, dir, glob, or array of files to match.
@@ -167,6 +166,7 @@ The `file_agent.js` can be found in `src` and can be run simply via node:
 Copy the `agent` folder of this repo to the root of your project folder:
 - `file-agent.js` 
 - `agent-sync.js`
+- `run-agent`
 - `package.json`
 
 The programming language will be detected based on the [languagemap](https://github.com/blakeembrey/language-map/blob/main/languages.json) based on Github's [linguist yaml language file](https://github.com/github-linguist/linguist/blob/master/lib/linguist/languages.yml)

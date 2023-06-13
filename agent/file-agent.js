@@ -1,9 +1,7 @@
-
-
 const sync = require("./agent-sync");
 const getPath = require("path");
 const watcher = require('ignoring-watcher');
-const getProgrammingLanguage = requie("detect-programming-language");
+const getProgrammingLanguage = require("detect-programming-language");
 
 function getMeta(path) {
   const ext = getPath.extname(path);
@@ -96,11 +94,11 @@ function getMeta(path) {
   return meta;
 }
 
-
 function startWatcher(dir) {
+
   const ignoringWatcher = watcher.createWatcher({
     // Directory to watch. Defaults to process.cwd()
-    dir: dir || getPath.join(__dirname, '..'),
+    dir: dir || sync.projPath,
  
     // Watch multiple directories instead of a single dir
     dirs: ['some/dir', 'another/dir'],
@@ -160,8 +158,6 @@ function startWatcher(dir) {
         var filePath = eventArgs.path; // The full file system path of the modified file
         sync.deleteFile(filePath);
     });
-
-
 
   ignoringWatcher.startWatching(); 
 }
