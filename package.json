@@ -149,17 +149,20 @@
           "order": 1
         },
         "chatgpt.model": {
-          "type": "number",
+          "type": "string",
+          "default": "",
           "description": "The model to use (default: turbo-gpt-3.5)",
           "order": 1
         },
         "chatgpt.temperature": {
           "type": "number",
+          "default": 1,
           "description": "The temperature to use (default: 1)",
           "order": 1
         },
         "chatgpt.topP": {
           "type": "number",
+          "default": 0.1,
           "description": "The top_p sampling to use (default: 0.1)",
           "order": 1
         },

@@ -146,13 +146,46 @@ or via script:
 
 This extension intends to use LangChain [CodeSplitter](https://python.langchain.com/en/latest/modules/indexes/text_splitters/examples/code_splitter.html) to split the code files as code.
 
-A custom TypeScript splitter is included in `src/typescript-textsplitter.js`. It would be easy to add the same for Python.
+A custom TypeScript splitter is included in `src/typescript-textsplitter.js`. 
+A TypeScript splitter is also included as python code in `services/typescript-textsplitter.py`
+
+They both have a static `build` method that takes a dictionary of options.
+
+Typescript variant
+
+```ts
+splitter = TypescriptTextSplitter.build(opts)
+tsDocs = splitter.create_documents([code])
+return tsDocs
+```
+
+Python variant
+
+```py
+splitter = TypescriptTextSplitter.build(opts)
+ts_docs = splitter.create_documents([code])
+return ts_docs
+```
+
 
 The retrieval plugin should be made to use a CodeSplitter for text files and other specific chunk splitters for other files (markdown, text etc) using LangChain.
 
 A placeholder file `services/code_chunks` is there to work from.
 
 Currently the file agent sends a special `language` metadata field as part of the `upsert` API call which can be used for chunking code files using an appropriate splitter.
+
+`upsert` calls `get_document_chunks`, which calls `create_document_chunks` which calls `get_text_chunks`
+
+`create_document_chunks` gets a document of the type `Document`
+
+```py
+class Document(BaseModel):
+    id: Optional[str] = None
+    text: str
+    metadata: Optional[DocumentMetadata] = None
+```
+
+Based on the metadata for the document it should decide which chunker (splitter) to use.
 
 ## Using the Extension
 

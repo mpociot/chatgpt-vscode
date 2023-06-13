@@ -188,7 +188,7 @@ export class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 						}
 					},
 					timeoutMs: this.timeoutLength * 1000
-				}
+				};
                 if (this.keepConversation) {
                     sendOpts.conversationId = this._conversationId;
                 }     

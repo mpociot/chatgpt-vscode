@@ -27,6 +27,12 @@ export class TypescriptTextSplitter {
         "",
       ];
 
+      static build(opts: any = {}) {
+        return new TypescriptTextSplitter().build({
+            ...opts
+        }); 
+      }
+
       build(opts: any = {}) {
         return new RecursiveCharacterTextSplitter({
             ...opts,
