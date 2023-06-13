@@ -1,6 +1,54 @@
 const getPath = require("path");
+const watcher = require('ignoring-watcher');
+import getProgrammingLanguage from "detect-programming-language";
 
-var ignoringWatcher = require('ignoring-watcher').createWatcher({
+function getMeta(path) {
+  const ext = getPath.extname(path);
+  const isTest = false;
+  if (path.match(/tests?.\//)) {
+    isTest = true;
+  }
+  if (ext.match(/\.test\./)) {
+    isTest = true;
+  }
+  if (ext.match(/\.spec\./)) {
+    isTest = true;
+  }
+  
+  if (ext.match(/\.spec\./)) {
+    isTest = true;
+  }
+  
+  isSrc = false;
+  if (path.match(/src\//) || path.match(/source\//) || path.match(/libs?\//)) {
+    isSrc = true;
+  }
+  
+  isMarkDown = false;
+  if (['.md', '.mkd', '.mkdown', '.markdown'].includes(ext)) {
+    isMarkDown = true;
+  }
+  // to be improved w doc/docs folder etc
+  isDocumentation = false;
+  if (isMarkDown) {
+    isDocumentation = true;
+  }
+  
+  const language = getProgrammingLanguage(ext);
+  
+  const meta = {
+    language, 
+    test: isTest, 
+    markdown: isMarkdown, 
+    documentation: isDocumentation,
+    source: isSrc
+  };
+  return meta;
+}
+
+
+function startWatcher(dir) {
+  const ignoringWatcher = watcher.createWatcher({
     // Directory to watch. Defaults to process.cwd()
     dir: __dirname,
  
@@ -28,123 +76,45 @@ var ignoringWatcher = require('ignoring-watcher').createWatcher({
     // If no ignore patterns were found via the other properties
     // then these ignore patterns will be used
     defaultIgnorePatterns: [
-        '.*'
+        '.*',
+        '*.lock'
     ],
  
     // The following patterns will always be loaded and not impact
     // the loading of the `defaultIgnorePatterns`
     ignoreAlwaysPatterns: [
-        'log.*',
-        '/temp/*'
+        'log.*', // no need to use log files
+        '*.lock', // no need to use lock files
+        '/temp/*' // no need to look at anything in temp folder
     ]
-});
+  });
 
-const baseApiUrl = process.env.BASE_API_URL || 'http://0.0.0.0:8000';
-
-const requestUpsertFile = async (filePath, fileOpts = {}, headers = {}) => {
-    try {
-      const file = fs.createReadStream(filePath);
-      const filePath = filePath;
-    
-      const form = new FormData();
-      form.append('title', title);
-      form.append('filePath', filePath);
-      // iterate opts with extra metadata
-    
-      const resp = await axios.post(`${baseApiUrl}/upsert-file`, form, {
-        headers: {
-          ...form.getHeaders(),
-          ...headers || {}
-        }
-      });
-    
-      if (resp.status === 200) {
-        return 'Upload complete';
-      } 
-    } catch(err) {
-      return new Error(err.message);
-    }
-};
-
-// ids or request.filter or request.delete_all
-const requestDelete = async (filePath, fileOpts = {}, headers = {}) => {
-    try {
-      const filePath = filePath;
-    
-      const form = new FormData();
-      //     
-        // ids: Optional[List[str]] = None
-        // filter: Optional[DocumentMetadataFilter] = None
-        // delete_all: Optional[bool] = False
-
-        // DocumentMetadataFilter
-        // document_id: Optional[str] = None
-        // source: Optional[Source] = None
-        // source_id: Optional[str] = None
-    
-      form.append('ids', [filePath]);
-      // iterate opts with extra metadata
-      Object.keys(fileOpts).forEach(key => {
-        form.append(key, fileOpts[key]);
-      });
-    
-      const resp = await axios.post(`${baseApiUrl}/delete`, form, {
-        headers: {
-          ...form.getHeaders(),
-          ...headers || {}
-        }
-      });
-    
-      if (resp.status === 200) {
-        return 'Delete complete';
-      } 
-    } catch(err) {
-      return new Error(err.message);
-    }
-};
-  
-const accessToken = process.env.DATABASE_INTERFACE_BEARER_TOKEN;
-
-const headers = {
-    "Authorization": "Bearer " + accessToken // token
-};
-
-async function upsertFile (filePath) {
-    const response = await requestUpsertFile(filePath, {}, headers);
-    console.log(response);
-};
-
-async function deleteFile (filePath) {
-    const response = await requestDelete(filePath, {}, headers);        
-    console.log(response);
-};
-
-import getProgrammingLanguage from "detect-programming-language";
-
-
-
-ignoringWatcher
+  ignoringWatcher
     .on('modified', function(eventArgs) { // Fired for any change event (add, delete, etc.)
-        var type = eventArgs.type; // add | addDir | change | unlink | unlinkDir
+        // var type = eventArgs.type; // add | addDir | change | unlink | unlinkDir
         var path = eventArgs.path; // The full file system path of the modified file
-
-        const ext = getPath.extname(path);
-        const language = getProgrammingLanguage(ext);
-
-        upsertFile(filePath, {language});
+        const meta = getMeta(path);
+        upsertFile(filePath, meta);
     });
-ignoringWatcher    
+  ignoringWatcher    
     .on('add', function(eventArgs) { // Fired for any change event (add, delete, etc.)
-        var type = eventArgs.type; // add | addDir | change | unlink | unlinkDir
-        var path = eventArgs.path; // The full file system path of the modified file
-        upsertFile(filePath);
+        // var type = eventArgs.type; // add | addDir | change | unlink | unlinkDir
+        var path = eventArgs.path;        
+        const meta = getMeta(path);
+        upsertFile(filePath, meta);
     });
 
-ignoringWatcher        
+  ignoringWatcher        
     .on('unlink', function(eventArgs) { // Fired for any change event (add, delete, etc.)
         var type = eventArgs.type; // add | addDir | change | unlink | unlinkDir
         var path = eventArgs.path; // The full file system path of the modified file
         deleteFile(filePath);
     });
-    
-ignoringWatcher.startWatching(); 
+
+
+
+  ignoringWatcher.startWatching(); 
+}
+
+startWatcher();
+

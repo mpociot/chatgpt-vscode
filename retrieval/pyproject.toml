@@ -13,6 +13,7 @@ secondary = true
 
 [tool.poetry.dependencies]
 igittigitt = "^2.1.2"
+langchain = "^0.0.198"
 python = "^3.10"
 fastapi = "^0.92.0"
 uvicorn = "^0.20.0"

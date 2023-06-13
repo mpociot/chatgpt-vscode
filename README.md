@@ -17,7 +17,7 @@ This Visual Studio Code extension allows you to use the [unofficial ChatGPT API]
 
 ## Update
 
-Updated to use version 5.2.x [ChatGPT API](https://www.npmjs.com/package/chatgpt) Node.js library with support for GPT-4 using an API key instead of the old session key.
+Updated to use version `5.2.x` of [ChatGPT API](https://www.npmjs.com/package/chatgpt) Node.js library with support for GPT-4 using an API key instead of the old session key.
 
 ## Features
 - **Ask general questions** or use code snippets from the editor to query ChatGPT via an input box in the sidebar
@@ -61,11 +61,17 @@ After completing these steps, the extension should be ready to use.
 To use this extension, you will need to authenticate with a valid API key from ChatGPT. To get an API key:
 
 1. Go to https://chat.openai.com/chat and log in or sign up.
-2. Go to Profile -> API key
+2. Go to Profile -> View API keys
+3. Create new secret key 
+
+See [How to get ChatGPT API key](https://elephas.app/blog/how-to-get-chatgpt-api-key-clh93ii2e1642073tpacu6w934j)
 
 Once you have obtained a API key, you can configure the extension to use it as described in the previous section.
 
-### Run ChatGPT plugin
+### Run ChatGPT retrieval plugin
+
+The modified ChatGPT retrieval plugin can be found in the retrieval folder.
+To set it up, following these steps in the terminal:
 
 ```
 cd retrieval
@@ -87,9 +93,12 @@ export PINECONE_INDEX=<your_index_name>
 ```
 
 ### Run Database Interface Server
-When The config is ready. Under the project directory, run:
 
-`poetry run start`
+Then run `poetry run start` in the `/retrieval` folder
+
+```bash
+retrieval $ poetry run start
+```
 
 It will start your Database Interface server. Open your browser and open `http://0.0.0.0:8000/docs#/`. 
 
@@ -103,9 +112,9 @@ The goal is to use an architecture similar to [chatgpt with external memory usin
 
 This will additionally use LangChain to chunk code files using a [Code splitter](https://python.langchain.com/en/latest/modules/indexes/text_splitters/examples/code_splitter.html) specific to the language of the code file being processed.
 
-We will need an agent running in OS in the background to monitor file changes which upserts and deletes vectors in the DB based on OS file operations. 
+We will need an agent running in the project root directory in the background to monitor file changes. For each file change it should call the API to `upsert` or `delete` vectors in the Vector Database so that this DB is always in sync with the project. 
 
-It should only take into account files that are "source files" of the project. To achieve this, we can use `.gitignore` or `.npmignore` files foralong with a custom configuration.
+It should only take into account files that are "source files" of the project. To achieve this, we can use `.gitignore` or `.npmignore` files along with a custom configuration.
 
 
 ### Chokidar agent with ignore files
@@ -128,19 +137,32 @@ watcher
   .on('unlink', path => log(`File ${path} has been removed`));
 ```
 
-For any `add` or `change` we call the `upsert` API of the FastAPI python API for [GPT Retrieval Plugin](https://github.com/openai/chatgpt-retrieval-plugin.git).
+For any `add` or `change` we will call the `upsert` endpoint of the FastAPI python API for the modified [GPT Retrieval Plugin](https://github.com/openai/chatgpt-retrieval-plugin.git).
 
-For `unlink` we call the `delete` endpoint.
+For `unlink` of files (ie. deletion of a file) we call the `delete` endpoint.
 
-We will however use [ignoring-watcher](https://www.npmjs.com/package/ignoring-watcher) as a convenient wrapper of Chokidar :)
+Doing this, we can keep the Vector DB in sync with the file system of code base.
+
+We will use [ignoring-watcher](https://www.npmjs.com/package/ignoring-watcher) as a convenient wrapper of Chokidar :)
 
 The `file_agent.js` can be found in `src` and can be run simply via node:
+
+You will need to copy the `file-agent.js` file to the root of your project folder and execute it there. 
+
+In addition install `ignoring-watcher` and `detect-programming-language` as development dependencies in your project using a node package such as `npm`
+
+```bash
+npm install ignoring-watcher detect-programming-language -D`
+```
+
+### Run file agent in your project
 
 `node src/file_agent.js`
 
 or via script:
 
 `npm run file-agent`
+
 
 ## Code chunks
 
@@ -167,14 +189,26 @@ ts_docs = splitter.create_documents([code])
 return ts_docs
 ```
 
-
-The retrieval plugin should be made to use a CodeSplitter for text files and other specific chunk splitters for other files (markdown, text etc) using LangChain.
-
-A placeholder file `services/code_chunks` is there to work from.
+The retrieval plugin uses a normal text splitter for text files but uses LangChain CodeSplitter when encountering files with an extension matching a programming language.
 
 Currently the file agent sends a special `language` metadata field as part of the `upsert` API call which can be used for chunking code files using an appropriate splitter.
 
-`upsert` calls `get_document_chunks`, which calls `create_document_chunks` which calls `get_text_chunks`
+The agent will call `upsert` with the following meta-info based on the file path. 
+This is meta is determined on a "best effort" basis (some basic assumptions/rules), that can be customized as needed for the particular project.
+
+```ts
+  const meta = {
+    language, 
+    test: isTest, 
+    markdown: isMarkdown, 
+    documentation: isDocumentation,
+    source: isSrc
+  };
+```
+
+Currently only `language` is being picked up on the Python API side in `upsert` and used for code splitting (chunking).
+
+In the Python API `upsert` calls `get_document_chunks`, which calls `create_document_chunks` which calls `get_text_chunks`
 
 `create_document_chunks` gets a document of the type `Document`
 
@@ -185,7 +219,48 @@ class Document(BaseModel):
     metadata: Optional[DocumentMetadata] = None
 ```
 
-Based on the metadata for the document it should decide which chunker (splitter) to use.
+`DocumentMetadata` has been expanded to contain some fields to specify more information regarding the particular document, to answer questions such as:
+
+- Is it part of test suite?
+- Is it a configuration file?
+- Is it a source file?
+- Is it part of project documentation?
+- Is it a markdown file?
+
+```py
+class DocumentMetadata(BaseModel):
+    source: Optional[Source] = None
+    source_id: Optional[str] = None
+    language: Optional[str] = None
+    config: Optional[bool] = None
+    test: Optional[bool] = None
+    src: Optional[bool] = None
+    doc: Optional[bool] = None
+    markdown: Optional[bool] = None
+    url: Optional[str] = None
+    created_at: Optional[str] = None
+    author: Optional[str] = None
+```
+
+These fields have also been expanded into the filter:
+
+```py
+class DocumentMetadataFilter(BaseModel):
+    document_id: Optional[str] = None
+    language: Optional[str] = None
+    config: Optional[bool] = None
+    test: Optional[bool] = None
+    src: Optional[bool] = None
+    documentation: Optional[bool] = None
+    markdown: Optional[bool] = None
+    source: Optional[Source] = None
+    source_id: Optional[str] = None
+    author: Optional[str] = None
+    start_date: Optional[str] = None  # any date string format
+    end_date: Optional[str] = None  # any date string format
+```
+
+Based on the metadata for the document it can decide which chunker (splitter) to use and how to populate the VectorDB with powerful metadata for use by the AI and embeddings search etc.
 
 ## Using the Extension
 
