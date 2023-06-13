@@ -56,9 +56,30 @@ function getMeta(path) {
   
   const language = getProgrammingLanguage(ext);
   
+  const langMap = {
+    'C++': 'cpp',
+    Go: 'go',  
+    Java: 'java',  
+    Javascript: 'js',  
+    PHP: 'php',  
+    Proto: 'proto',
+    Python: 'python',  
+    reStructuredText: 'rst',  
+    Ruby: 'ruby',
+    Rust: 'rust',
+    Scala: 'scala',
+    Swift: 'swift',
+    Markdown: 'markdown',
+    Latex: 'latex',
+    HTML: 'html'
+  };
+
+  const langCode = langMap[language]
+
   const meta = {
     path: filePath,
     language, 
+    langCode,
     config: isConfig,
     test: isTest, 
     markdown: isMarkdown, 

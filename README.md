@@ -151,6 +151,15 @@ You will need to copy the `file-agent.js` file to the root of your project folde
 
 In addition install `ignoring-watcher` and `detect-programming-language` as development dependencies in your project using a node package such as `npm`
 
+The programming language will be detected based on the [languagemap](https://github.com/blakeembrey/language-map/blob/main/languages.json) based on Github's [linguist yaml language file](https://github.com/github-linguist/linguist/blob/master/lib/linguist/languages.yml)
+
+
+Alternative node lang detectors:
+- [lang-detector](https://www.npmjs.com/package/lang-detector)
+- [language-detect](https://www.npmjs.com/package/language-detect)
+- [flourite](https://www.npmjs.com/package/flourite)
+- [program-language-detector](https://www.npmjs.com/package/program-language-detector)
+
 ```bash
 npm install ignoring-watcher detect-programming-language -D`
 ```
@@ -194,12 +203,14 @@ The retrieval plugin uses a normal text splitter for text files but uses LangCha
 Currently the file agent sends a special `language` metadata field as part of the `upsert` API call which can be used for chunking code files using an appropriate splitter.
 
 The agent will call the `upsert_file` Python API with the following meta-info based on the file path. 
-This is meta is determined on a "best effort" basis (some basic assumptions/rules), that can be customized as needed for the particular project.
+
+This meta is determined on a "best effort" basis (some basic assumptions/rules), that can be customized as needed for the particular project.
 
 ```ts
   const meta = {
     path: filePath,
-    language, 
+    language, // from Github's languagemap
+    langCode, // matches supported language codes for LangChain CodeSplitter lookup
     config: isConfig,
     test: isTest, 
     markdown: isMarkdown, 
@@ -208,7 +219,11 @@ This is meta is determined on a "best effort" basis (some basic assumptions/rule
   };
 ```
 
-`language` will be picked up on the Python API side in `upsert` and is set, it will be used for code splitting (chunking) based on language specific chunk separators and rules.
+`language` will be picked up on the Python API side in `upsert` and is set, it will be used for code splitting (chunking) based on LangChain's language specific chunk separators and rules.
+
+Yet another approach would be to use the python library [guesslang](https://github.com/yoeo/guesslang) to guess the language of the document text based on Tensorflow machine learning framework (See [how does guesslang guess](https://guesslang.readthedocs.io/en/latest/contents.html#how-does-guesslang-guess))
+
+> "Guesslang detects the programming language of a given source code. It supports more than 50 programming languages and detects the correct programming language with more than 90% accuracy."
 
 ### Upsert file
 
@@ -242,6 +257,8 @@ async def upsert_file(
 
 In the Python API `upsert` calls `get_document_chunks`, which calls `create_document_chunks` which calls `get_text_chunks`
 
+### Create document chunks
+
 `create_document_chunks` gets a document of the type `Document`
 
 ```py
@@ -266,6 +283,7 @@ class DocumentMetadata(BaseModel):
     source: Optional[Source] = None
     source_id: Optional[str] = None
     path: Optional[str] = None
+    langCode: Optional[str] = None
     language: Optional[str] = None
     config: Optional[bool] = None
     test: Optional[bool] = None
@@ -283,6 +301,7 @@ These fields have also been expanded into the filter:
 class DocumentMetadataFilter(BaseModel):
     document_id: Optional[str] = None
     path: Optional[str] = None
+    langCode: Optional[str] = None
     language: Optional[str] = None
     config: Optional[bool] = None
     test: Optional[bool] = None

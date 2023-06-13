@@ -14,6 +14,7 @@ class DocumentMetadata(BaseModel):
     source_id: Optional[str] = None
     path: Optional[str] = None
     language: Optional[str] = None
+    langCode: Optional[str] = None
     config: Optional[bool] = None
     test: Optional[bool] = None
     src: Optional[bool] = None
@@ -52,6 +53,7 @@ class DocumentWithChunks(Document):
 class DocumentMetadataFilter(BaseModel):
     document_id: Optional[str] = None
     path: Optional[str] = None
+    langCode: Optional[str] = None
     language: Optional[str] = None
     config: Optional[bool] = None
     test: Optional[bool] = None

@@ -39,7 +39,7 @@ def create_document_chunks(
     # Generate a document id if not provided
     doc_id = doc.id or str(uuid.uuid4())
 
-    doc_lang = doc.metadata.language
+    doc_lang = doc.metadata.langCode
 
     text_chunks = get_code_chunks(doc, chunk_token_size) if doc_lang else get_text_chunks(doc.text, chunk_token_size)
 
