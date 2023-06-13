@@ -3,7 +3,7 @@ from langchain import RecursiveCharacterTextSplitter
 class TypescriptTextSplitter(RecursiveCharacterTextSplitter):
     separators = [
         # typescript
-        "\type ",
+        "\ntype ",
         "\ninterface ",
         "\namespace ",
         # javascript

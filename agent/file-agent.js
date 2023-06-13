@@ -1,6 +1,9 @@
+
+
+const sync = require("./agent-sync");
 const getPath = require("path");
 const watcher = require('ignoring-watcher');
-import getProgrammingLanguage from "detect-programming-language";
+const getProgrammingLanguage = requie("detect-programming-language");
 
 function getMeta(path) {
   const ext = getPath.extname(path);
@@ -58,9 +61,13 @@ function getMeta(path) {
   
   const langMap = {
     'C++': 'cpp',
+    'C#': 'java',
     Go: 'go',  
     Java: 'java',  
     Javascript: 'js',  
+    JSX: 'js',
+    Typescript: 'typescript',
+    TSX: 'typescript',
     PHP: 'php',  
     Proto: 'proto',
     Python: 'python',  
@@ -74,7 +81,7 @@ function getMeta(path) {
     HTML: 'html'
   };
 
-  const langCode = langMap[language]
+  const langCode = langMap[language];
 
   const meta = {
     path: filePath,
@@ -93,7 +100,7 @@ function getMeta(path) {
 function startWatcher(dir) {
   const ignoringWatcher = watcher.createWatcher({
     // Directory to watch. Defaults to process.cwd()
-    dir: __dirname,
+    dir: dir || getPath.join(__dirname, '..'),
  
     // Watch multiple directories instead of a single dir
     dirs: ['some/dir', 'another/dir'],
@@ -135,23 +142,23 @@ function startWatcher(dir) {
   ignoringWatcher
     .on('modified', function(eventArgs) { // Fired for any change event (add, delete, etc.)
         // var type = eventArgs.type; // add | addDir | change | unlink | unlinkDir
-        var path = eventArgs.path; // The full file system path of the modified file
+        var filePath = eventArgs.path; // The full file system path of the modified file
         const meta = getMeta(path);
-        upsertFile(filePath, meta);
+        sync.upsertFile(filePath, meta);
     });
   ignoringWatcher    
     .on('add', function(eventArgs) { // Fired for any change event (add, delete, etc.)
         // var type = eventArgs.type; // add | addDir | change | unlink | unlinkDir
-        var path = eventArgs.path;        
+        var filePath = eventArgs.path;        
         const meta = getMeta(path);
-        upsertFile(filePath, meta);
+        sync.upsertFile(filePath, meta);
     });
 
   ignoringWatcher        
     .on('unlink', function(eventArgs) { // Fired for any change event (add, delete, etc.)
-        var type = eventArgs.type; // add | addDir | change | unlink | unlinkDir
-        var path = eventArgs.path; // The full file system path of the modified file
-        deleteFile(filePath);
+        // var type = eventArgs.type; // add | addDir | change | unlink | unlinkDir
+        var filePath = eventArgs.path; // The full file system path of the modified file
+        sync.deleteFile(filePath);
     });
 
 

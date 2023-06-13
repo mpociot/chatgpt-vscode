@@ -3,15 +3,15 @@ import openai
 import requests
 import os
 from secrets import DATABASE_INTERFACE_BEAR_TOKEN
-from secrets import OPENAI_API_KEY
 import logging
 
+base_url = os.environ.get("BASE_API_URL") or "http://0.0.0.0:8000"
 
 def query_database(query_prompt: str) -> Dict[str, Any]:
     """
     Query vector database to retrieve chunk with user's input questions.
     """
-    url = "http://0.0.0.0:8000/query"
+    url = "{base_url}/query"
     headers = {
         "Content-Type": "application/json",
         "accept": "application/json",

@@ -1,0 +1,17 @@
+{
+  "name": "file-agent",
+  "version": "1.0.0",
+  "description": "Agent to detect file changes and sync with Vector DB for AI memory",
+  "main": "file-agent.js",
+  "scripts": {
+    "file-agent": "node agent/file_agent.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ignoring-watcher": "^1.1.0",
+    "detect-programming-language": "^1.0.1",
+    "axios": "^1.4.0"
+  }
+}

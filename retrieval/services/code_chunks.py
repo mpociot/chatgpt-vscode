@@ -13,7 +13,7 @@ def get_lang_splitter(lang: str):
 def get_code_chunks(doc: Document, chunk_token_size: Optional[int]) -> List[str]:
     ts_splitter = TypescriptTextSplitter.build()
 
-    lang = doc.metadata.language
+    lang = doc.metadata.langCode
 
     lang_splitter = ts_splitter if lang is "typescript" else get_lang_splitter(lang)
 

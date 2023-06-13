@@ -1,3 +1,5 @@
+const path = require("path");
+const axios = require("axios");
 const baseApiUrl = process.env.BASE_API_URL || 'http://0.0.0.0:8000';
 
 const requestUpsertFile = async (filePath, fileOpts = {}, headers = {}) => {
@@ -68,8 +70,15 @@ const headers = {
     "Authorization": "Bearer " + accessToken // token
 };
 
+const projectPath = process.env.PROJECT_PATH;
+
 async function upsertFile (filePath) {
-    const response = await requestUpsertFile(filePath, {}, headers);
+    const opts = {};
+    if (projectPath) {
+      const relativePath = path.relative(projectPath, filePath);
+      opts = {relativePath};
+    }    
+    const response = await requestUpsertFile(filePath, opts, headers);
     console.log(response);
 };
 
@@ -77,3 +86,8 @@ async function deleteFile (filePath) {
     const response = await requestDelete(filePath, {}, headers);        
     console.log(response);
 };
+
+module.exports = {
+  upsertFile,
+  deleteFile
+}

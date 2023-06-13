@@ -83,7 +83,7 @@ poetry install
 
 Set your environment variables
 
-```
+```bash
 export DATASTORE=pinecone
 export BEARER_TOKEN=<your_database_interface_api_key>
 export OPENAI_API_KEY=<your_openai_api_key>
@@ -91,6 +91,23 @@ export PINECONE_API_KEY=<your_pinecone_api_key>
 export PINECONE_ENVIRONMENT=<your_pinecone_region_name>
 export PINECONE_INDEX=<your_index_name>
 ```
+
+Other environment variables
+
+```bash
+DATABASE_INTERFACE_BEARER_TOKEN=<your DB token>
+BASE_API_URL=http://0.0.0.0:8000
+PROJECT_PATH=<full path to your project root path>
+GPT_MODEL=<chatGPT model to use>
+```
+
+`GPT_MODEL` is the ChatGPT model to use, defaulting to `gpt-3.5-turbo`.
+
+`DATABASE_INTERFACE_BEARER_TOKEN` should be the same as `BEARER_TOKEN`. It is the token used with OAuth2 to authenticate with the DB.
+
+`BASE_API_URL` is the root URL of the Python FastAPI server which defaults to `http://0.0.0.0:8000`
+
+`PROJECT_PATH` is used by the file agent to correctly determine relative file path of a changed file relative to the project root. 
 
 ### Run Database Interface Server
 
@@ -147,9 +164,10 @@ We will use [ignoring-watcher](https://www.npmjs.com/package/ignoring-watcher) a
 
 The `file_agent.js` can be found in `src` and can be run simply via node:
 
-You will need to copy the `file-agent.js` file to the root of your project folder and execute it there. 
-
-In addition install `ignoring-watcher` and `detect-programming-language` as development dependencies in your project using a node package such as `npm`
+Copy the `agent` folder of this repo to the root of your project folder:
+- `file-agent.js` 
+- `agent-sync.js`
+- `package.json`
 
 The programming language will be detected based on the [languagemap](https://github.com/blakeembrey/language-map/blob/main/languages.json) based on Github's [linguist yaml language file](https://github.com/github-linguist/linguist/blob/master/lib/linguist/languages.yml)
 
@@ -166,9 +184,9 @@ npm install ignoring-watcher detect-programming-language -D`
 
 ### Run file agent in your project
 
-`node src/file_agent.js`
+`node agent/file_agent.js`
 
-or via script:
+or via script (see `scripts` section in `agent/package.json`):
 
 `npm run file-agent`
 
