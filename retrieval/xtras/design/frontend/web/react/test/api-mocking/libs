@@ -1,0 +1,2 @@
+Mock Service Worker:
+Mock by intercepting requests on the network level. Seamlessly reuse the same mock definition for testing, development, and debugging.

@@ -1,0 +1,10 @@
+Determine and decide the Auth strategies to be supported and which backends are to be used.
+Ask clarifying questions.
+
+When you have sufficient information generate the auth code as follows:
+
+One main authentication file
+
+Supporting auth files for each type of authentication supported
+
+Supporting files for backends as needed.
