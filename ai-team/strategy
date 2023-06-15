@@ -1,0 +1,57 @@
+The AI dev team will consist of:
+
+- Architecture team
+- Backend dev team
+- Frontend dev team
+- Devops team
+- Project Management team
+
+To initiate the project, the end user will supply a folder with a requirements specification in a specific format that the AI can parse and understand clearly
+
+The AI team should then partition the requirements spec into relevant tasks and responsibilities for each team.
+
+Each team should start to clarify anything that is unclear by asking the user for further information.
+
+The team should then proceed to break down the overall requirements into smaller tasks that are further refined.
+
+When the overall requirement are clear, the team should start by determining the general project infrastructure:
+
+Create basic project structure:
+Determine the overall type of project such as:
+- CLI
+- Simple client app
+- Fullstack Client/Server app
+- Run locally or needs Cloud infrastructure
+- External services needed
+- Payment gateways
+- Security and Authentication
+- Keys and tokens needed for the services
+
+Based on these findings the Architect team should:
+
+- Generate initial project structure
+- Use app generators to generate the initial skeleton app for each part of the application needed
+
+Examples of app generators:
+- azd Azure Developer CLI - generates an app based on Azure app template
+- create-react-app
+- nextjs generator
+- ...
+
+When the initial skeleton project has been set up, the requirements should then be delegated to each team to work on
+
+Each dev team will have:
+- Implementer (think Junior developer) who does the base level coding
+- Overseer (think Tech lead or senior developer) who oversees and suggests improvements
+- Tester who writes and maintains tests
+- Documentation writer who writes and maintains documentation both in code and external docs, including diagrams
+
+Architecture team will oversee overall technical direction
+
+Project team will oversee that what is developed matches requirements
+
+Additional Frontend team roles:
+- Story writer who maintains storybook tests
+- E2E tester who writes tests simulating end user
+
+
