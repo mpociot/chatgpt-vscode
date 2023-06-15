@@ -1,0 +1,15 @@
+Features and benefits of Mantine include:
+
+Components: Mantine has 100+ components, including over 20 input components, carousels, text editor, date pickers, overlays, and navigation. It supports Embla based carousels, Quill based text editor, and lets you adjust your content easily. You also can change colors, search items, use autocomplete, and many more.
+
+Dark color scheme: You can add a dark theme to the app you are building with a little coding. Mantine can export global styles for dark and light themes alike.
+
+Customization: Each component in Mantine can be customized visually with props. This helps you quickly build a prototype and keep experimenting by modifying the props.
+
+Style overriding: Mantine allows style overriding for each internal element with the help of inline styles or classes. When you can use this feature along with other customization flexibility, you can apply any visual changes you want and fit your design needs.
+
+Flexible theming: You don’t have to limit yourself to the default theme; you can extend it with additional colors, radius, spacing, fonts, etc., to complement your designs.
+
+Additional features: Other important features included in Mantine are auto-vendor prefixing, lazy evaluation, extracting critical CSS during server-side rendering, dynamic theming, and more.
+
+Integration: Mantine works with modern environments, including Gatsby.js, Next.js, Remix, create-react-app, or Vite.

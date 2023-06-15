@@ -1,0 +1,7 @@
+Features and benefits include:
+
+Efficient rendering: The tool can efficiently render large tabular and list data. Hence, it’s useful if you want to render multiple columns in one table or if you have a large list having hundreds and thousands of elements.
+
+Components: You will get many components, including an auto-sizer, a columnsizer, a cellmeasurer, a multigrid, an arrowkeeper, direction sorters, etc., apart from the common ones. This versatile library can meet your growing tabular needs. You can also customize your table by adjusting its row heights.
+
+Browser support: React Virtualized supports standard web browsers for Android and iOS.

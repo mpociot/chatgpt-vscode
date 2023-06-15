@@ -1,0 +1,83 @@
+React UI libraries to choose from:
+
+- Material UI
+- React Bootstrap
+- Ant Design
+- Chakra UI
+- Semantic UI React
+- Headless UI
+- React admin
+
+Material UI:
+Material-UI (MUI) is a fully loaded UI component library that offers a comprehensive set of UI tools to create and deploy new features at speed. It is one of the most powerful and popular UI component libraries out there with over 3.2 million downloads on npm a week, 78k stars on GitHub, 17k+ followers on Twitter, and 2.4k+ open-source contributors.
+
+React Bootstrap:
+React Bootstrap, is rebuilt for React-based applications and systems. It has replaced Bootstrap JavaScript, where each component is developed from scratch as native React components with no need for dependencies such as jQuery.
+
+React-Bootstrap, despite being one of the earliest React libraries, has evolved to become an excellent option for building effortless user interfaces. It includes amazing UI elements for your mobile and web applications.
+
+Ant Design:
+If you are looking for a react based UI component library to build enterprise-grade products, Ant Design is an excellent option. It will help you create an enjoyable yet productive work experience.
+
+Chakra UI:
+Create react applications with Chakra UI, which is a simple, accessible, and modular component library. It offers useful building blocks to help you build valuable features in your applications and delight users.
+
+Chakra’s popularity is growing due to its awesome offerings and performance. 
+
+With this tool by your side, you will spend less time coding and more time creating wonderful experiences for the end users. Chakra UI is designed to make it easier for developers to add features faster without creating everything from scratch.
+
+As a result, they will have to write fewer codes and can choose a component directly in their design without having to write code for each component from scratch. It not only saves them time but also effort so that they can invest their valuable time in innovation.
+
+Fluent:
+Fluent is a cross-platform, open-source design tool to help you create an engaging user experience. It was previously named Fabric React and is an excellent UI library created by Microsoft.
+
+Developers and designers can benefit from its useful tools to add design elements to their applications without having to create them from scratch. This tool is powerful and intuitive and is built to adjust as per user intent and behavior. No matter what device you use, working with Fluent feels natural, be it PCs, laptops, or tablets.
+
+Fluent is one of the best tools if you are creating cross-platform applications.
+
+Semantic UI:
+Integrating React with Semantic UI can be an excellent strategy to get a customized UI component library for your projects. Semantic UI React helps you build your sites and applications with concise and easy HTML. It has 12k+ stars on GitHub.
+
+With this tool, you can load any CSS theme you want on the app you are building. It also has human-friendly HTML to develop software products. It’s a declarative API that offers powerful prop validation and features.
+
+Headless UI:
+Created by Tailwind Labs, Headless UI offers fully-accessible and unstyled UI components designed to be easily compatible with Tailwind CSS. It is one of the best UI libraries for all your React-based projects. It also is popular with 54.5k+ stars on GitHub.
+
+Since this tool can separate the app logic from the visual components, it’s an excellent option if you are building a UI for your application. It enables you to create applications easily without leaving your HTML. Also, it’s a utility focussed CSS library full of classes such as rotate-90, text-center, pt-4, and flex.
+
+React Admin:
+If you are looking for a React framework to build your B2B applications, React-admin is a good option. It aims to provide the best experiences to developers and enables you to focus more on fulfilling your business needs.
+
+This is an open-source tool with an MIT license and is robust, stable, easy to learn, and a joy to work with. This is why 10k+ companies across the world have used React-admin on their projects.
+
+With React-admin, you can create delightful UIs, whether you are building your internal tools, B2B apps, CRMs, or ERPs. It aims at increasing the maintainability and productivity of developers by allowing them to design faster.
+
+Retool:
+If you are building internal applications, Retool is an excellent option. It will eliminate the struggle with UI libraries, data sources, and access controls. You will get a streamlined way to handle everything and produce apps that customers would love to use.
+
+This tool has been used by businesses of all sizes, from Fortune 500s to start-ups for creating awesome internal applications.
+
+Grommet:
+Grommet is an all-around React framework with a tidy package that contains responsiveness, theming, accessibility, and modularity. It will help you streamline your software development with an effortless UI component library.
+
+This tool is an outstanding option if you are looking for a comprehensive design system to build accessible and responsive mobile-first web projects. It’s created by HPE and provides a vibrant experience while designing.
+
+Evergreen:
+Offered by Segment, Evergreen is an amazing React UI library to help you create delightful software products. It’s also a design system that offers you flexibility and does not limit you to a particular configuration or needs obsolete integration.
+
+Evergreen facilitates building software products that can adapt to changing design needs. It offers a lot of features, components, and many benefits to help you create user-friendly and powerful interfaces. If you want to build enterprise-grade web applications, this will be a good option for you.
+
+Evergreen has a rich collection of guides, plugins, kits, and tools to simplify designing your systems. You can also go to Evergreen’s Figma library and get the help you require.
+
+Mantine:
+Mantine is a fully featured React UI components library that you can use to develop your web applications and sites at quick turnaround times. It’s built to make your app accessible and flexible and comes with 40+ hooks and 100+ customizable components.
+
+This tool is open source and free with its packages having the MIT license. It’s based on TypeScript and supports several frameworks.
+
+This tool looks promising with all its features, offerings, and interface. Its components support server-side rendering across different browsers.
+
+React motion:
+If you are looking for a solution to animate components in React, you can consider React Motion. It is an excellent React library that will help you create realistic animations. It’s easy to get started with this tool and use it.
+
+React virtualized:
+If you are building a complex front end with heavy data, you may want to use React Virtualized. Whether it’s components or customizations, you can perform everything with ease in this tool.

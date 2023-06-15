@@ -1,0 +1,22 @@
+Features and benefits of Retool include:
+
+Robust building blocks: You will get 90+ useful and robust building blocks such as tables, charts, forms, lists, maps, wizards, and so on. Retool offers these components out of the box to help you spend more time assembling and optimizing your UI and not writing code for them separately.
+
+Saves effort and time: instead of finding the best React library for a component (say table), you can use Retool to get everything in a single place. It has options like drag and drop to enable you to arrange components and put together an application’s features and parts quickly. This way, you can save plenty of your time and move on to the next project faster while accomplishing the current one with better efficiency.
+
+Visualization: Adding features like maps, tables, etc. to your applications allows users to visualize important data easily. This helps them take suitable actions even in crucial hours.
+
+Integration: you can connect to any database through GraphQL, gRPC API, and REST. This way, you can get all your data in a single application and work seamlessly. It integrates with tools like MongoDB, MySQL, Google Sheets, Stripe, Snowflake, Slack, Salesforce, Twilio, Google Cloud Storage, GitHub, AWS Lambda, Sendgrid, Redis, and many more.
+
+Error handling: With Retool, you don’t need to worry about error handling from the backend. This tool can handle everything, from READing data from MongoDB and JOINing it to Postgres to POSTing its result directly to the Stripe API.
+
+Developer-friendly: Retool is a developer-friendly tool that allows your developers to do much more than what’s available. A developer can write code using JavaScript and develop the app in Retool. It accepts JavaScript everywhere and helps you easily execute your code. In addition, you can use Transformers to write reusable code and manipulate data.
+Native API: You will get to use a native API in Retool to interact with queries and components via JS.
+
+Customizing, importing, debugging: it’s easy to customize any component you want to make it suitable for your use case. You can also import a JavaScript library through URLs for different uses. Retool comes installed with tools like Lodash, Numbro, and Moment. In addition, it’s easy to debug. You can view all the available components, environments, and queries along with query dependencies and start debugging.
+
+Secure deployment: Retool offers built-in security, permissions, and reliability to help you deploy your products with privacy and security. You can either host Retool in your Virtual Private Cloud (VPC), Virtual Private Network (VPN), or on-premises. You can also deploy via Kubernetes or Docker.
+
+Furthermore, you can view revision history with the help of Git and sign in securely using Two-Factor Authentication (2FA), Single Sign-On (SSO), or Security Assertion Markup Language (SAML). In addition, it offers audit logs and fine-grained access controls to allow only permitted individuals to access your applications.
+
+Retool offers extensive documentation and support. Its support is available on its Discourse forum, Slack (if you are a Retool power user), Intercom for live chat, and dedicated support for enterprise customers.

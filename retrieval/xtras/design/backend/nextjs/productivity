@@ -1,0 +1,14 @@
+Blitz:
+Blitz picks up where Next.js leaves off, providing battle-tested libraries and conventions for shipping and scaling world wide applications.
+
+Typesafe API Layer:
+Build and iterate on features 10x faster with Blitz RPC than REST, GraphQL, or vanilla API routes. Read and write data from the client with full typesafety and without messing with HTTP or serialization.
+
+Authentication:
+Powerful, flexible, and battle tested authentication and authorization for Next.js. You get more control with simpler APIs than alternatives. Easily add social third party integrations like Google, Github, and Auth0.
+
+Conventions & Codegen:
+Set up a new app in 2 mins instead of 2 weeks. Everything will be set up for you including auth, user signup, forgot password, and your form library of choice.
+
+Site: https://blitzjs.com/
+

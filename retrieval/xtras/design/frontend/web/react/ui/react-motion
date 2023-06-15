@@ -1,0 +1,5 @@
+Features and benefits include:
+
+Specifying stiffness values: The thing that makes this tool even more attractive is you can specify values for stiffness. You can also define damping parameters. This way, your components will look more realistic as you can control the stiffness.
+
+Styling: You can use React Motion to easily animate a simple card component’s scaling. For this, you will need to utilize styled components.

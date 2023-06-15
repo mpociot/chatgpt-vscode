@@ -1,0 +1,13 @@
+Features and benefits of Semantic UI include:
+
+jQuery Free: Semantic UI React is free from jQuery as it lacks virtual DOM.
+Pre-built components: this library offers many components, including buttons, header, containers, and icons. In addition, you will get shorthand props to help create markup automatically.
+
+Easy debugging: With Semantic React UI used on an app, developers find it easier to debug applications. You can easily track issues without keeping on digging through your stack traces.
+
+Theming: Semantic UI has high-level themes along with a smart inheritance system to provide you with complete design flexibility. It offers 3000+ theming variables. So, just develop the UI once and use it as many times as you want.
+
+UI components: You get 50+ UI components to develop your complete site using just a single UI stack. In addition, you can share the UI in different projects and reduce your efforts in creating each from scratch for every project. You get a wide variety of components from buttons to collections, views, elements, behaviors, and modules, covering a large area of interface design.
+
+Responsiveness: The tool is designed to make your interface responsive, giving you options to figure out the best design for your content and design elements on both mobile and tablet.
+Integrations: The tool has integration with Angular, Ember, Meteor, etc., apart from React. This lets you organize your user interface layer alongside the application logic.
