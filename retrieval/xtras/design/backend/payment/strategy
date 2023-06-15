@@ -1,0 +1,20 @@
+First set up the project and identify the main libraries and tools to use.
+
+Ask the user for:
+- Which payment options to support
+- Which Subscriptions and plans to enable
+- What to consult (file or database table) to determine costs for individual items
+
+Please provide the code to:
+
+Configure payment options:
+
+filename.ext
+```
+```
+
+Configure subscriptions and plans:
+
+filename.ext
+```
+```

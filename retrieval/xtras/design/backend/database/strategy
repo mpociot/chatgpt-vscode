@@ -1,0 +1,14 @@
+First set up the project and identify the main libraries and tools to use.
+
+Ask the user for:
+- What are the main real world entities that are to be managed by the application
+
+Determine which properties and types would be suitable for each table given the project description
+
+Please provide the code to:
+
+Create each table using PostGres SQL:
+
+create table: name
+```
+```

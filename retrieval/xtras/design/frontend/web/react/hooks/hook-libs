@@ -1,0 +1,83 @@
+React Hooks Form:
+
+Npm name: react-hook-form
+
+React Hooks for form state management and validation (Web + React Native). It reduces the amount of code you need to write while removing unnecessary re-renders.
+
+Features
+- Built with performance, UX, and DX in mind
+- Embraces native HTML form validation
+- Out-of-the-box integration with UI libraries
+- Small size and no dependencies
+- Support Yup, Zod, AJV, Superstruct, Joi, Vest, class-validator, io-ts, nope, and custom build
+
+React use:
+
+Npm name: react-use
+
+React use has a collection of essential React Hooks for managing devices sensors, UI controls, animations, side-effects, Lifecycle, State, and more
+
+React Query:
+
+Npm name: query
+
+Hooks for fetching, caching, and updating asynchronous data in React. It has declarative, always-up-to-date auto-managed queries and mutations that directly improve both your developer and user experiences
+
+Features
+Transport/protocol/backend agnostic data fetching (REST, GraphQL, promises, whatever!)
+Auto Caching + Refetching (stale-while-revalidate, Window Refocus, Polling/Realtime)
+Parallel + Dependent Queries
+Mutations + Reactive Query Refetching
+Multi-layer Cache + Automatic Garbage Collection
+Paginated + Cursor-based Queries
+Load-More + Infinite Scroll Queries w/ Scroll Recovery
+Request Cancellation
+React Suspense + Fetch-As-You-Render Query Prefetching
+Dedicated Devtools ...
+
+rehooks:
+
+Npm name: @rehooks/local-storage
+
+React hook for enabling synchronization with local storage.
+
+Features
+Automatic JSON serialization
+Synchronization across multiple tabs
+Synchronization across multiple tabs
+Type hinting via TypeScript
+
+useMedia:
+
+Npm name: use-media
+
+React sensor hook that tracks the state of a CSS media query. It takes a straightforward solution to the issue as media queries are extremely critical for the responsiveness of any application or website
+
+useFetch:
+
+Alias: useHttp
+
+Npm name: use-http
+
+It is an awesome package that is used as the replacement of Fetch API
+
+Features
+- SSR (server-side rendering) support
+- TypeScript support
+- 2 dependencies (use-ssr, urs)
+- GraphQL support (queries + mutations)
+- Provider to set default URL and options
+- Request/response interceptors
+- React Native support
+- Aborts/Cancels pending HTTP requests when a component unmounts
+- Built in caching
+- Persistent caching support
+- Suspense(experimental) support
+- Retry functionality
+
+React Hanger:
+
+Npm name: react-hanger
+
+Set of helpful hooks, for specific to some primitives types state changing helpers
+react-hanger is a library that has some React Hooks that let us more easily manage various kinds of states. Here are some following Hooks: useInput useBoolean useNumber useArray useOnMount useOnUnmount and many more...

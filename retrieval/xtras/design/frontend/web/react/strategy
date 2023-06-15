@@ -1,0 +1,10 @@
+First set up the project and identify the main libraries and tools to use.
+
+Ask the user for:
+
+- Which project creator to use
+- Which UI library or framework to use
+- Which Hosting provider to use
+- Which hooks to use
+- Which State management libraries to use
+- Which APIs to use
