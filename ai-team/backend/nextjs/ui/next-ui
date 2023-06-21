@@ -1,0 +1,15 @@
+Features and benefits of NextUI include:
+
+Faster: NextUI eliminates unwanted style props during runtime. This makes the tool better performing than other React UI libraries.
+
+Unique DX: NextUI is fully typed, which helps reduce the learning curve while providing better developer experiences. Also, developers don’t need to import several components in order to showcase just one. Hence, you can do more by writing less code.
+
+Light and dark UI: You will get automatic recognition for dark mode. NextUI can automatically change your theme by detecting prop changes in the HTML theme. Its default dark theme is well scaled and easy to apply with less coding.
+
+Themeable: It offers an easy way to customize the default themes available. You can easily modify the fonts, color, breakpoints, etc.
+
+Customization: Since NextUI is developed on top of CSS-in-JS library Stitches, it’s easy to customize the components either through the CSS prop, native CSS selectors, or styled function. In addition, you will get a set of Stitches utilities out of the box to accelerate your workflow by grouping CSS properties together, shortening CSS properties, or simplifying a complex syntax.
+
+Server-side rendering: NextUI’s components facilitate cross-browser server-side rendering that you can easily apply to your applications.
+
+Accessibility: All the components by NextUI follow the WAI-ARIA guidelines and offer keyboard support. Users can also view a focus ring when they navigate using a screen reader or a keyboard. It’s also compatible with Next.js.

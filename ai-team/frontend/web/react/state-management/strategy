@@ -1,0 +1,15 @@
+Explain the main design philosophy of each State management library and the pros and cons
+of using it. Determine whether it would be a good fit for the project and give it a score of 1-10 across the following dimensions.
+
+- simplicity
+- scalability
+- suitability
+- popularity
+- modern technology use
+- overall
+
+Provide the command to install the latest stable package version of the library.
+
+Install package command: `insert command here`
+
+

@@ -1,0 +1,9 @@
+Features and benefits of React Bootstrap include:
+
+Compatibility: React-Bootstrap is designed to be compatible with a wide range of UIs. It relies completely on the Bootstrap stylesheet and works with multiple Bootstrap themes that you might like.
+
+Accessibility: all the components included are developed to be easily accessible to any user or device. Hence, the user will also get better control over each component’s function and form.
+
+Lightweight: You can minimize the volume of code in your applications by importing just the components you need individually instead of importing the complete library. It will be less time-consuming as well.
+
+Themes: Since Bootstrap is used widely for web development, you will find thousands of paid and free themes available.

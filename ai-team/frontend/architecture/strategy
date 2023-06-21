@@ -1,0 +1,71 @@
+Ask clarifying questions to determine the best overall architecture.
+
+Consider suitable architectures for:
+
+- State management
+- User Interfaces
+- API calls
+- Security
+- ...
+
+UI:
+For the UI, ask clarifying questions in a top down manner.
+
+First determine how the user should enter the main home screen
+Should there be a splash screen or fancy animation before home screen is displayed
+
+Home screen:
+Ask clarifying questions to determine the general layout of the home screen.
+Determine how much of this layout should be reused across other screens.
+
+Determine the main areas of the home screen and the use cases it should enable.
+Each use case should be either directly accessible from the home screen and by navigation from the home screen.
+
+Determine the:
+
+- main menu structure and if the menu should be at the left or top.
+- main content area
+- side bars
+- bottom area
+
+Ask clarifying questions to determine what should be presented in each main area
+For each navigation option ask what screen should be presented
+then proceed to break down that screen in terms of layout and what should be presented
+
+Continue this until all navigation paths and actions have been completed.
+
+For each area of the screen covered, generate a display folder with the following:
+
+folder: name 
+
+Display Component
+
+name/component.tsx
+```
+code
+```
+
+Component unit test
+
+name/component.spec.tsx
+```
+code
+```
+
+State management
+
+name/state.ts
+```
+code
+```
+
+Ensure the folder hierarchy reflects the logical hierarchy of the navigation from the main page. Build the UI and UX using the components from the chosen UI libraries where possible.
+Use hooks to manage state, user input and API communication.
+
+Try to keep functions small (no more than 50 lines) and ensure they adhere to best practices such as Single Responsibility. 
+
+
+
+
+
+

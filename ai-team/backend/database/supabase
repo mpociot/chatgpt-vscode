@@ -1,0 +1,373 @@
+Supabase is an open source Firebase alternative. We're building the features of Firebase using enterprise-grade open source tools.
+
+ - Hosted Postgres Database
+ - Authentication and Authorization.
+ - Auto-generated APIs
+ - REST
+ - GraphQL
+ - Realtime subscriptions. 
+ - Functions.
+ - Database Functions
+ - Edge Functions
+ - File Storage
+ - AI + Vector/Embeddings Toolkit
+ - Dashboard
+
+Management API:
+https://supabase.com/docs/reference/api/introduction
+
+Client: 
+Client library: supabase-js
+Site: https://github.com/supabase/supabase-js
+
+Supabase SDK:
+
+Create new user:
+https://supabase.com/docs/reference/javascript/auth-signup
+
+Sign in user:
+https://supabase.com/docs/reference/javascript/auth-signinwithpassword
+
+Get user session:
+https://supabase.com/docs/reference/javascript/auth-getsession
+
+Subscribe to channel:
+https://supabase.com/docs/reference/javascript/subscribe
+
+List all buckets:
+https://supabase.com/docs/reference/javascript/storage-listbuckets
+
+Create a signed url:
+https://supabase.com/docs/reference/javascript/storage-from-createsignedurl
+
+Fetch data:
+https://supabase.com/docs/reference/javascript/select
+
+Update data:
+https://supabase.com/docs/reference/javascript/update
+
+Upsert data:
+https://supabase.com/docs/reference/javascript/upsert
+
+Delete data:
+https://supabase.com/docs/reference/javascript/delete
+
+Insert data:
+https://supabase.com/docs/reference/javascript/insert
+
+Authentication#
+All API requests require a Supabase Personal token to be included in the Authorization header: Authorization Bearer <supabase_personal_token.
+To generate or manage your API token, visit your account page.
+Your API tokens carry the same privileges as your user account, so be sure to keep it secret.
+
+  curl https://api.supabase.com/v1/projects \
+  -H "Authorization: Bearer sbp_bdd0••••••••••••••••••••••••••••••••4f23"
+
+All API requests must be authenticated and made over HTTPS.
+
+Rate limits#
+The API is currently subject to our fair-use policy. In the future, are likely to introduce rate limits.
+All resources created via the API are subject to the pricing detailed on our Pricing pages.
+
+List all projects
+GET
+/v1/projects
+Returns a list of all projects you've previously created.
+
+Sample 200 HTTP response
+
+```json
+{
+  "schema": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of your project"
+        },
+        "organization_id": {
+          "type": "string",
+          "description": "Slug of your organization"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of your project"
+        },
+        "region": {
+          "type": "string",
+          "description": "Region of your project",
+          "example": "us-east-1"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Creation timestamp",
+          "example": "2023-03-29T16:32:59Z"
+        },
+        "database": {
+          "type": "object",
+          "properties": {
+            "host": {
+              "type": "string",
+              "description": "Database host"
+            },
+            "version": {
+              "type": "string",
+              "description": "Database version"
+            }
+          },
+          "required": [
+            "host",
+            "version"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "organization_id",
+        "name",
+        "region",
+        "created_at"
+      ]
+    }
+  }
+}
+```
+
+Create a project
+POST
+/v1/projects
+
+Sample 201 response
+
+```json
+{
+  "schema": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Id of your project"
+      },
+      "organization_id": {
+        "type": "string",
+        "description": "Slug of your organization"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of your project"
+      },
+      "region": {
+        "type": "string",
+        "description": "Region of your project",
+        "example": "us-east-1"
+      },
+      "created_at": {
+        "type": "string",
+        "description": "Creation timestamp",
+        "example": "2023-03-29T16:32:59Z"
+      },
+      "database": {
+        "type": "object",
+        "properties": {
+          "host": {
+            "type": "string",
+            "description": "Database host"
+          },
+          "version": {
+            "type": "string",
+            "description": "Database version"
+          }
+        },
+        "required": [
+          "host",
+          "version"
+        ]
+      }
+    },
+    "required": [
+      "id",
+      "organization_id",
+      "name",
+      "region",
+      "created_at"
+    ]
+  }
+}
+```
+
+Create an organization
+POST
+/v1/organizations
+
+```json
+{
+  "schema": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "name"
+    ]
+  }
+}
+```
+
+List all secrets
+GET
+/v1/projects/{ref}/secrets
+
+Returns all secrets you've previously added to the specified project.
+
+```json
+{
+  "schema": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ]
+    }
+  }
+}
+```
+
+Generate TypeScript types
+GET
+/v1/projects/{ref}/types/typescript
+
+Returns the TypeScript types of your schema for use with supabase-js.
+
+```json
+{
+  "schema": {
+    "type": "object",
+    "properties": {
+      "types": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "types"
+    ]
+  }
+}
+```
+
+Create a function
+POST
+/v1/projects/{ref}/functions
+
+Creates a function and adds it to the specified project.
+
+Sample 201 HTTP response
+
+```json
+{
+  "schema": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "slug": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "status": {
+        "enum": [
+          "ACTIVE",
+          "REMOVED",
+          "THROTTLED"
+        ],
+        "type": "string"
+      },
+      "version": {
+        "type": "number"
+      },
+      "created_at": {
+        "type": "number"
+      },
+      "updated_at": {
+        "type": "number"
+      },
+      "verify_jwt": {
+        "type": "boolean"
+      },
+      "import_map": {
+        "type": "boolean"
+      },
+      "entrypoint_path": {
+        "type": "string"
+      },
+      "import_map_path": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "slug",
+      "name",
+      "status",
+      "version",
+      "created_at",
+      "updated_at"
+    ]
+  }
+}
+```
+
+Update a function
+PATCH
+/v1/projects/{ref}/functions/{function_slug}
+
+Updates a function with the specified slug and project.
+
+Delete a function
+DELETE
+/v1/projects/{ref}/functions/{function_slug}
+
+Deletes a function with the specified slug from the specified project.
+
+Retrieve a function body
+GET
+/v1/projects/{ref}/functions/{function_slug}/body
+
+Retrieves a function body for the specified slug and project.
+
+Invoke function:
+
+Can be used to dynamically create and modify database tables
+
+https://supabase.com/docs/reference/javascript/functions-invoke
+
+Requires an Authorization header.
+Invoke params generally match the Fetch API spec.
+When you pass in a body to your function, we automatically attach the Content-Type header for Blob, ArrayBuffer, File, FormData and String. If it doesn't match any of these types we assume the payload is json, serialise it and attach the Content-Type header as application/json. You can override this behaviour by passing in a Content-Type header of your own.
+Responses are automatically parsed as json, blob and form-data depending on the Content-Type header sent by your function. Responses are parsed as text by default.
+
+const { data, error } = await supabase.functions.invoke('hello', {
+  body: { foo: 'bar' }
+})
+
+

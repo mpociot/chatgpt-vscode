@@ -2,8 +2,8 @@
   "name": "chatgpt",
   "displayName": "ChatGPT: write and improve code using AI",
   "description": "Extension that allows you to use OpeanAI's ChatGPT inside the IDE (unofficial)",
-  "version": "0.4.0",
-  "publisher": "timkmecl",
+  "version": "0.4.1",
+  "publisher": "kmandrup",
   "icon": "resources/extensionIcon.png",
   "license": "MIT",
   "repository": {
@@ -132,20 +132,38 @@
     },
     "views": {
       "chatgpt": [
-				{
-					"type": "webview",
-					"id": "chatgpt.chatView",
-					"name": "ChatGPT"
-				}
+        {
+          "type": "webview",
+          "id": "chatgpt.chatView",
+          "name": "ChatGPT"
+        }
       ]
     },
     "configuration": {
       "title": "chatGPT",
       "type": "object",
       "properties": {
-        "chatgpt.sessionToken": {
+        "chatgpt.apiKey": {
           "type": "string",
-          "description": "A session token you get when logged into chat.openai.com",
+          "description": "The apiKey you get from chat.openai.com",
+          "order": 1
+        },
+        "chatgpt.model": {
+          "type": "string",
+          "default": "",
+          "description": "The model to use (default: turbo-gpt-3.5)",
+          "order": 1
+        },
+        "chatgpt.temperature": {
+          "type": "number",
+          "default": 1,
+          "description": "The temperature to use (default: 1)",
+          "order": 1
+        },
+        "chatgpt.topP": {
+          "type": "number",
+          "default": 0.1,
+          "description": "The top_p sampling to use (default: 0.1)",
           "order": 1
         },
         "chatgpt.pasteOnClick": {
@@ -183,7 +201,8 @@
           "default": true,
           "description": "Keep the conversation going by using the same conversation ID for all requests (allows follow-up questions)",
           "order": 7
-        },"chatgpt.timeoutLength": {
+        },
+        "chatgpt.timeoutLength": {
           "type": "number",
           "default": "60",
           "description": "How long should the request wait for a response before timing out (in seconds)",
@@ -210,22 +229,24 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/glob": "^8.0.0",
+    "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
-    "@types/node": "16.x",
-    "@types/vscode": "^1.73.0",
-    "@typescript-eslint/eslint-plugin": "^5.45.0",
-    "@typescript-eslint/parser": "^5.45.0",
-    "@vscode/test-electron": "^2.2.0",
-    "eslint": "^8.28.0",
-    "glob": "^8.0.3",
-    "mocha": "^10.1.0",
-    "ts-loader": "^9.4.1",
-    "typescript": "^4.9.3",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.0"
+    "@types/node": "20.x",
+    "@types/vscode": "^1.79.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
+    "@typescript-eslint/parser": "^5.59.11",
+    "@vscode/test-electron": "^2.3.3",
+    "eslint": "^8.42.0",
+    "glob": "^10.2.7",
+    "mocha": "^10.2.0",
+    "ts-loader": "^9.4.3",
+    "typescript": "^5.1.3",
+    "webpack": "^5.86.0",
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "chatgpt": "^2.0.5"
+    "chatgpt": "^5.2.5",
+    "detect-programming-language": "^1.0.1",
+    "langchain": "^0.0.92"
   }
 }

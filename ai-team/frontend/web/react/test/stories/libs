@@ -1,0 +1,35 @@
+Storybook:
+Every piece of UI is now a component. The superpower of components is that you don't need to spin up the whole app just to see how they render. You can render a specific variation in isolation by passing in props, mocking data, or faking events.
+
+Storybook is packaged as a small, development-only, workshop that lives alongside your app. It provides an isolated iframe to render components without interference from app business logic and context. That helps you focus development on each variation of a component, even the hard-to-reach edge cases.
+
+Capture UI variations as “stories”:
+When developing a component variation in isolation, save it as a story. Stories are a declarative syntax for supplying props and mock data to simulate component variations. Each component can have multiple stories. Each story allows you to demonstrate a specific variation of that component to verify appearance and behavior.
+
+You write stories for granular UI component variation and then use those stories in development, testing, and documentation.
+
+Storybook keeps track of every story:
+Storybook is an interactive directory of your UI components and their stories. In the past, you'd have to spin up the app, navigate to a page, and contort the UI into the right state. This is a huge waste of time and bogs down frontend development. With Storybook, you can skip all those steps and jump straight to working on a UI component in a specific state.
+
+Benefits:
+When you write stories for components, you get a bunch of additional benefits for free.
+
+📝 Develop UIs that are more durable:
+Isolate components and pages and track their use cases as stories. Verify hard-to-reach edge cases of UI. Use addons to mock everything a component needs—context, API requests, device features, etc.
+
+✅ Test UIs with less effort and no flakes
+Stories are a pragmatic, reproducible way of tracking UI states. Use them to spot-test the UI during development. Storybook offers built-in workflows for automated Accessibility, Interaction, and Visual testing. Or use stories as test cases by importing them into other JavaScript testing tools.
+
+📚 Document UI for your team to reuse:
+Storybook is the single source of truth for your UI. Stories index all your components and their various states, making it easy for your team to find and reuse existing UI patterns. Storybook also auto-generates documentation from those stories.
+
+📤 Share how the UI actually works:
+Stories show how UIs actually work, not just a picture of how they're supposed to work. That keeps everyone aligned on what's currently in production. Publish Storybook to get sign-off from teammates. Or embed them in wikis, Markdown, and Figma to streamline collaboration.
+
+🚦Automate UI workflows:
+Storybook is compatible with your continuous integration workflow. Add it as a CI step to automate user interface testing, review implementation with teammates, and get signoff from stakeholders.
+
+Write stories once, reuse everywhere:
+Storybook is powered by Component Story Format, an open standard based on JavaScript ES6 modules. This enables stories to interoperate between development, testing, and design tools. Each story is exported as a JavaScript function enabling you to reuse it with other tools. No vendor lock-in.
+
+Reuse stories with Jest and Testing Library to verify interactions. Put them in Chromatic for visual testing. Audit story accessibility with Axe. Or test user flows with Playwright and Cypress. Reuse unlocks more workflows at no extra cost.

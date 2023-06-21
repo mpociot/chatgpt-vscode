@@ -1,0 +1,20 @@
+React redux:
+Package name: react-redux
+
+Zustand:
+Package name: zustand
+
+Mobx:
+Package name: mobx
+
+Jotai:
+Package name: jotai
+
+Recoil:
+Package name: recoil
+
+Mobx State Tree:
+Package name: mobx-state-tree
+
+Unstated:
+Package name: unstated

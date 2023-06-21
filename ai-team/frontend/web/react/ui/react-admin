@@ -1,0 +1,14 @@
+Features and benefits of React Admin include:
+
+Faster: This tool has the capability of accelerating your work speed. In as little as 13 lines of coding, you can get started with it.
+
+Modern design: You can create API based apps with this tool that comes with modern material designs.
+
+A vast library of components: React-admin can be used to create common features instead of creating each from the start. It has a vast library of components and hooks that can cover most of the use cases so that you can focus on your business logic. It has components, including forms and validation, search and filter, notifications, routing, fully-featured Datagrid, and more apart from common ones.
+
+Accessibility and responsiveness: React-admin is built to be accessible and responsive to anyone using different devices. This way, it aims to enhance the user experience of what device they use and where they are located globally.
+Role and permissions: Make your application secure with suitable roles and permissions for the users.
+
+Theming: you will get different options for theming to make your user interface attractive yet useful.
+
+Integration: React-admin can work with any API. It is backend agnostic. You can also find adapters compatible with most GraphQL and REST dialects or write the code yourself in a few minutes. It can integrate seamlessly with OpenAPI, Django, Firebase, Prisma, and more.

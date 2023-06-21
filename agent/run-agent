@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+ const { startWatcher } = require("./file-agent");
+ startWatcher();

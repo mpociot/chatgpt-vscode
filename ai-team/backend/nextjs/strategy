@@ -1,0 +1,27 @@
+First set up the project and identify the main libraries and tools to use.
+
+Ask the user for:
+- Which nextjs project generator to use
+- Which Cloud hosting provider to use
+- Which external APIs to use
+- Which Database to use
+- Which Payment provider to use
+- Which Authentication provider to use
+
+Leverage Blitz to the extent possible to simplify the project setup
+
+Please suggest a good choice for each based on information provided by the user.
+
+List the choices in the following manner:
+
+Backend project generator:
+Name:
+Command to execute generator with name of project: `insert command here`
+
+Nextjs supporting library:
+Name:
+Command to install backend library: `insert command here`
+
+If you believe multiple supporting libraries should be used, list all such libraries and a single install command which installs them all.
+
+Make sure the install commands also adds each library to the package.json file.

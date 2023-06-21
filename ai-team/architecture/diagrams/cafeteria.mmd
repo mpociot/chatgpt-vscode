@@ -1,0 +1,61 @@
+erDiagram
+    Employee ||--o{ Order : Places
+    Employee ||--o{ Payment : Makes
+    Employee ||--o{ CafeteriaStaff : Manages
+
+    Order ||--|{ Payment : Includes
+
+    Menu ||--o{ OrderItem : Has
+    MenuCategory ||--o{ Menu : Categorizes
+
+    Employee {
+        string employeeId
+        string firstName
+        string lastName
+        string username
+        string password
+        string email
+        string employeeMealCard
+    }
+
+    Order {
+        string orderId
+        string employeeId
+    }
+
+    Payment {
+        string paymentId
+        string employeeId
+        string orderId
+        number amount
+        string paymentMethod
+    }
+
+    Menu {
+        string menuId
+        string name
+        string description
+        number price
+        string categoryId
+    }
+
+    OrderItem {
+        string orderItemId
+        string orderId
+        string menuId
+        number quantity
+    }
+
+    MenuCategory {
+        string categoryId
+        string name
+    }
+
+    CafeteriaStaff {
+        string staffId
+        string firstName
+        string lastName
+        string username
+        string password
+        string email
+    }
