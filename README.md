@@ -2,8 +2,14 @@
 
 This Visual Studio Code extension allows you to use the [unofficial ChatGPT API](https://github.com/transitive-bullshit/chatgpt-api) to generate natural language responses from OpenAI's [ChatGPT](https://chat.openai.com/chat) to your questions, right within the editor.
 
+## Sponsors
 
-### [Marketplace](https://marketplace.visualstudio.com/items?itemName=timkmecl.chatgpt), [Github](https://github.com/timkmecl/chatgpt-vscode)
+[What The Diff](https://whatthediff.ai/?ref=gh-chatgpt) - your AI powered code review assistant
+
+[![What The Diff](https://whatthediff.ai/images/card.png)](https://whatthediff.ai/?ref=gh-chatgpt)
+
+
+### [Marketplace](https://marketplace.visualstudio.com/items?itemName=timkmecl.chatgpt)
 
 <br>
 
